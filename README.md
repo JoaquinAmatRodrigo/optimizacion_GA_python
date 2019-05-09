@@ -3,8 +3,8 @@
 Implementación de un algoritmo genético para optimización con python.
 
 + Documentación: https://joaquinamatrodrigo.github.io/optimizacion_GA_python/
-+ El archivo *GA_python.py* contiene las clases y funciones necesarias para la optimización.
-+ El jupyter notebook *GA_python.ipynb* contiene información detallada del funcionamiento del optimizador, ejemplos y visualizaciones.
++ El archivo *optimizacion_GA.py* contiene las clases y funciones necesarias para la optimización.
++ El jupyter notebook *optimizacion_GA.ipynb* contiene información detallada del funcionamiento del optimizador, ejemplos y visualizaciones.
 
 <br><br>
 
