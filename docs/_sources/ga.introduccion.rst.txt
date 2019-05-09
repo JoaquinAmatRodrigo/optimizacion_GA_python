@@ -1,0 +1,98 @@
+Introducción
+================================================================================
+
+Los algoritmos genéticos son métodos de optimización heurística que, entre otras aplicaciones, pueden emplearse para encontrar el valor o valores que consiguen maximizar o minimizar una función. Su funcionamiento está inspirado en la `teoría evolutiva de selección natural <https://es.wikipedia.org/wiki/Selecci%C3%B3n_natural/>`_ propuesta por Darwin y Alfred Russel: los individuos de una población se reproducen generando nuevos descendientes, cuyas características, son combinación de las características de los progenitores (más ciertas mutaciones). De todos ellos, únicamente los mejores individuos sobreviven y pueden reproducirse de nuevo, transmitiendo así sus características a las siguientes generaciones.
+   
+   El método de algoritmo genético es solo una de las muchas estrategias de optimización heurística que existen, una alternativa común es el método `enjambre de partículas <https://github.com/JoaquinAmatRodrigo/optimizacion_PSO_python/>`_
+
+   La optimización heurística no tiene por qué ser la forma de optimización más adecuada en todos los escenarios. Si el problema en cuestión puede optimizarse de forma analítica, suele ser más adecuado resolverlo de esta forma.
+
+   La implementación de algoritmo que se muestra en este documento pretende ser lo más explicativa posible aunque para ello no sea la más eficiente.
+   
+El código de las funciones desarrolladas a lo largo del documento puede descargarse en el siguiente `Link <https://github.com/JoaquinAmatRodrigo/optimizacion_algoritmo_genetico/>`_.
+
+
+
+Algoritmo
+--------------------------------------------------------------------------------
+
+
+Aunque existen variaciones, algunas de las cuales se describen a lo largo de este documento, en términos generales, la estructura de un algoritmo genético para optimizar (maximizar o minimizar) una función con una o múltiples variables sigue los siguientes pasos:
+
+----
+
+1. Crear una población inicial aleatoria de *P* individuos. En este caso, cada individuo representa una combinación de valores de las variables.
+
+2. Calcular la fortaleza (*fitness*) de cada individuo de la población. El *fitness* está relacionado con el valor de la función objetivo para cada individuo. Si se quiere maximizar, cuanto mayor sea el valor de la función para el individuo, mayor su fitness. En el caso de minimización, ocurre lo contrario.
+
+3. Crear una nueva población vacía y repetir los siguientes pasos hasta que se hayan creado *P* nuevos individuos.
+
+    3.1. Seleccionar dos individuos de la población existente, donde la probabilidad de selección es proporcional al *fitness* de los individuos.
+
+    3.2. Cruzar los dos individuos seleccionados para generar un nuevo descendiente (*crossover*).
+
+    3.3. Aplicar un proceso de mutación aleatorio sobre el nuevo individuo.
+
+    3.4. Añadir el nuevo individuo a la nueva población.
+
+4. Reemplazar la antigua población por la nueva.
+
+5. Si no se cumple un criterio de parada, volver al paso 2.
+
+----
+
+En los siguientes apartados se implementan cada una de las etapas del proceso para, finalmente, combinarlas todas en una única función.
+
+Población
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+En el contexto de algoritmos genéticos, el término individuo hace referencia a cada una de las posibles soluciones del problema que se quiere resolver. En el caso de maximización o minimización de una función, cada individuo representa una posible combinación de valores de las variables. Para representar dichas combinaciones, se pueden emplear vectores, cuya longitud es igual al número total de variables, y cada posición toma un valor numérico. Por ejemplo, supóngase que la función objetivo :math:`J(x,y,z)` depende de las variables :math:`x, y, z`. El individuo :math:`3, 9.5, -0.5`, equivale a la combinación de valores :math:`x = 3, y = 9.5, z = -0.5`.
+
+Fitness
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Cada individuo de la población debe ser evaluado para cuantificar cómo de bueno es como solución al problema, a esta cuantificación se le llama  (*fitness*). Dependiendo de si se trata de un problema de maximización o minimización, la relación del *fitness* con la función objetivo :math:`f` puede ser:
+
+- Maximización: el individuo tiene mayor *fitness* cuanto mayor es el valor de la función objetivo :math:`f(individuo)`.
+
+- Minimización: el individuo tiene mayor *fitness* cuanto menor es el valor de la función objetivo :math:`f(individuo)`, o lo que es lo mismo, cuanto mayor es el valor de la función objetivo, menor el *fitness*. Tal y como se describe más adelante, el algoritmo genético selecciona los individuos de mayor *fitness*, por lo que, para problemas de minimización, el *fitness* puede calcularse como :math:`-f(individuo)` o también :math:`\frac{1}{1+f(individuo)}`.
+
+
+Seleccionar individuos
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+La forma en que se seleccionan los individuos que participan en cada cruce difiere en las distintas implementaciones de los algoritmos genéticos. Por lo general, todas ellas tienden a favorecer la selección de aquellos individuos con mayor *fitness*. Algunas de las estrategias más comunes son:
+
+- Método de ruleta: la probabilidad de que un individuo sea seleccionado es proporcional a su *fitness* relativo, es decir, a su *fitness* dividido por la suma del *fitness* de todos los individuos de la población. Si el *fitness* de un individuo es el doble que el de otro, también lo será la probabilidad de que sea seleccionado. Este método presenta problemas si el *fitness* de unos pocos individuos es muy superior (varios órdenes de magnitud) al resto, ya que estos serán seleccionados de forma repetida y casi todos los individuos de la siguiente generación serán "hijos" de los mismos "padres" (poca variación).
+
+- Método *rank*: la probabilidad de selección de un individuo es inversamente proporcional a la posición que ocupa tras ordenar todos los individuos de mayor a menor *fitness*. Este método es menos agresivo que el método ruleta cuando la diferencia entre los mayores *fitness* es varios órdenes de magnitud superior al resto.
+
+- Selección competitiva (*tournament*): se seleccionan aleatoriamente dos parejas de individuos de la población (todos con la misma probabilidad). De cada pareja se selecciona el que tenga mayor *fitness*. Finalmente, se comparan los dos finalistas y se selecciona el de mayor *fitness*. Este método tiende a generar una distribución de la probabilidad de selección más equilibrada que las dos anteriores.
+
+- Selección truncada (*truncated selection*): se realizan selecciones aleatorias de individuos, habiendo descartado primero los *n* individuos con menor *fitness* de la población.
+
+Cruzar dos individuos (*crossover*, recombinación)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+El objetivo de esta etapa es generar, a partir de individuos ya existentes (parentales), nuevos individuos (descendencia) que combinen las características de los anteriores. Este es otro de los puntos del algoritmo en los que se puede seguir varias estrategias. Tres de las más empleadas son:
+
+- Cruzamiento a partir de uno solo punto: se selecciona aleatoriamente una posición que actúa como punto de corte. Cada individuo parental se divide en dos partes y se intercambian las mitades. Como resultado de este proceso, por cada cruce, se generan dos nuevos individuos.
+
+- Cruzamiento a partir múltiples puntos: se seleccionan aleatoriamente varias posiciones que actúan como puntos de corte. Cada individuo parental se divide por los puntos de corte y se intercambian las partes. Como resultado de este proceso, por cada cruce, se generan dos nuevos individuos.
+
+- Cruzamiento uniforme: el valor que toma cada posición del nuevo individuo se obtiene de uno de los dos parentales. Por lo general, la probabilidad de que el valor proceda de cada parental es la misma, aunque podría, por ejemplo, estar condicionada al *fitness* de cada uno. A diferencia de las anteriores estrategias, con esta, de cada cruce se genera un único descendiente.
+
+Mutar individuo
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Tras generar cada nuevo individuo de la descendencia, este se somete a un proceso de mutación en el que, cada una de sus posiciones, puede verse modificada con una probabilidad *p*. Este paso es importante para añadir diversidad al proceso y evitar que el algoritmo caiga en mínimos locales por que todos los individuos sean demasiado parecidos de una generación a otra.
+
+Existen diferentes estrategias para controlar la magnitud del cambio que puede provocar una mutación.
+
+- Distribución uniforme: la mutación de la posición *i* se consigue sumándole al valor de *i* un valor extraído de una distribución uniforme, por ejemplo una entre [-1,+1].
+
+- Distribución normal: la mutación de la posición *i* se consigue sumándole al valor de *i* un valor extraído de una distribución normal, comúnmente centrada en 0 y con una determinada desviación estándar. Cuanto mayor la desviación estándar, con mayor probabilidad la mutación introducirá cambios grandes.
+
+- Aleatorio: la mutación de la posición *i* se consigue reemplazando el valor de *i* por nuevo valor aleatorio dentro del rango permitido para esa variable. Esta estrategia suele conllevar mayores variaciones que las dos anteriores.
+
+Hay que tener en cuenta que, debido a las mutaciones, un valor que inicialmente estaba dentro del rango permitido puede salirse de él. Una forma de evitarlo es: si el valor tras la mutación excede alguno de los límites acotados, se sobrescribe con el valor del límite. Es decir, se permite que los valores se alejen como máximo hasta el límite impuesto.

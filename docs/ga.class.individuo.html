@@ -1,0 +1,499 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Particula &mdash; Optimización GA 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Optimización GA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tabla de contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ga.introduccion.html">Introducción</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga.codigo.html">Codigo Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga.ejemplos.html">Ejemplos</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Optimización GA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Particula</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ga.class.individuo.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ga.class_individuo">
+<span id="particula"></span><h1>Particula<a class="headerlink" href="#module-ga.class_individuo" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="ga.class_individuo.Individuo">
+<em class="property">class </em><code class="descclassname">ga.class_individuo.</code><code class="descname">Individuo</code><span class="sig-paren">(</span><em>n_variables</em>, <em>limites_inf=None</em>, <em>limites_sup=None</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_individuo.html#Individuo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_individuo.Individuo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Esta clase representa un individuo con unas características inicial definida
+por una combinación de valores numéricos aleatorios. El rango de posibles
+valores para cada variable puede estar acotado.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n_variables</strong> (<cite>int</cite>) – número de variables que definen al individuo.</li>
+<li><strong>limites_inf</strong> (<cite>list</cite> or <cite>numpy.ndarray</cite>, optional) – límite inferior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los <code class="docutils literal notranslate"><span class="pre">None</span></code> serán remplazados
+por el valor (-10**3). (default <code class="docutils literal notranslate"><span class="pre">None</span></code>)</li>
+<li><strong>limites_sup</strong> (<cite>list</cite> or <cite>numpy.ndarray</cite>, optional) – límite superior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los <code class="docutils literal notranslate"><span class="pre">None</span></code> serán remplazados
+por el valor (+10**3). (default <code class="docutils literal notranslate"><span class="pre">None</span></code>)</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del individuo creado. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.n_variables">
+<code class="descname">n_variables</code><a class="headerlink" href="#ga.class_individuo.Individuo.n_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>número de variables que definen al individuo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>int</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.limites_inf">
+<code class="descname">limites_inf</code><a class="headerlink" href="#ga.class_individuo.Individuo.limites_inf" title="Permalink to this definition">¶</a></dt>
+<dd><p>límite inferior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los <code class="docutils literal notranslate"><span class="pre">None</span></code> serán remplazados por
+el valor (-10**3).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite> or <cite>numpy.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.limites_sup">
+<code class="descname">limites_sup</code><a class="headerlink" href="#ga.class_individuo.Individuo.limites_sup" title="Permalink to this definition">¶</a></dt>
+<dd><p>límite superior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los``None`` serán remplazados por
+el valor (+10**3).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite> or <cite>numpy.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.valor_variables">
+<code class="descname">valor_variables</code><a class="headerlink" href="#ga.class_individuo.Individuo.valor_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>array con el valor de cada una de las variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>numpy.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.fitness">
+<code class="descname">fitness</code><a class="headerlink" href="#ga.class_individuo.Individuo.fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>valor de fitness del individuo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>float</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.valor_funcion">
+<code class="descname">valor_funcion</code><a class="headerlink" href="#ga.class_individuo.Individuo.valor_funcion" title="Permalink to this definition">¶</a></dt>
+<dd><p>valor de la función objetivo para el individuo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>float</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><em>raise Exception</em> – si <cite>limites_inf</cite> es distinto de None y su longitud no coincide con
+<cite>n_variables</cite>.</li>
+<li><em>raise Exception</em> – si <cite>limites_sup</cite> es distinto de None y su longitud no coincide con
+<cite>n_variables</cite>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Ejemplo creación individuo.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span> <span class="o">=</span> <span class="n">Individuo</span><span class="p">(</span>
+<span class="go">                    n_variables = 3,</span>
+<span class="go">                    limites_inf = [-1,2,0],</span>
+<span class="go">                    limites_sup = [4,10,20],</span>
+<span class="go">                    verbose     = True</span>
+<span class="go">                )</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="ga.codigo.html#ga.class_individuo.Individuo.calcular_fitness" title="ga.class_individuo.Individuo.calcular_fitness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcular_fitness</span></code></a>(funcion_objetivo,&nbsp;optimizacion)</td>
+<td>Este método obtiene el fitness del individuo calculando el valor que toma</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="ga.codigo.html#ga.class_individuo.Individuo.mutar" title="ga.class_individuo.Individuo.mutar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mutar</span></code></a>([prob_mut,&nbsp;distribucion,&nbsp;…])</td>
+<td>Este método somete al individuo a un proceso de mutación en el que, cada una de sus posiciones, puede verse modificada con una probabilidad <cite>prob_mut</cite>.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="ga.class_individuo.Individuo.calcular_fitness">
+<code class="descname">calcular_fitness</code><span class="sig-paren">(</span><em>funcion_objetivo</em>, <em>optimizacion</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_individuo.html#Individuo.calcular_fitness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_individuo.Individuo.calcular_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div>Este método obtiene el fitness del individuo calculando el valor que toma
+la función objetivo con el valor de sus variables.</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><dl class="first docutils">
+<dt><strong>funcion_objetivo</strong> <span class="classifier-delimiter">:</span> <span class="classifier"><cite>function</cite></span></dt>
+<dd><blockquote class="first">
+<div><p>función que se quiere optimizar.</p>
+</div></blockquote>
+<dl class="last docutils">
+<dt>optimizacion <span class="classifier-delimiter">:</span> <span class="classifier">{‘maximizar’, ‘minimizar’}</span></dt>
+<dd><p class="first last">ver notas para más información.</p>
+</dd>
+<dt>verbose <span class="classifier-delimiter">:</span> <span class="classifier"><cite>bool</cite>, optional</span></dt>
+<dd><p class="first last">mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><dl class="first last docutils">
+<dt><strong>raise Exception</strong></dt>
+<dd><p class="first last">si el argumento <cite>optimizacion</cite> es distinto de ‘maximizar’ o
+‘minimizar’</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p>rac{1}{1+f(individuo)}`.</p>
+<p class="rubric">Examples</p>
+<p>Ejemplo evaluar individuo con una función objetivo.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span> <span class="o">=</span> <span class="n">Individuo</span><span class="p">(</span>
+<span class="go">                n_variables = 3,</span>
+<span class="go">                limites_inf = [-1,2,0],</span>
+<span class="go">                limites_sup = [4,10,20],</span>
+<span class="go">                verbose     = True</span>
+<span class="go">            )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">funcion_objetivo</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">):</span>
+<span class="go">        f= x_0**2 + x_1**2 + x_2**2</span>
+<span class="go">        return(f)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span><span class="o">.</span><span class="n">calcular_fitness</span><span class="p">(</span>
+<span class="go">        funcion_objetivo = funcion_objetivo,</span>
+<span class="go">        optimizacion     = &quot;minimizar&quot;,</span>
+<span class="go">        verbose          = True</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ga.class_individuo.Individuo.mutar">
+<code class="descname">mutar</code><span class="sig-paren">(</span><em>prob_mut=0.01</em>, <em>distribucion='uniforme'</em>, <em>media_distribucion=1</em>, <em>sd_distribucion=1</em>, <em>min_distribucion=-1</em>, <em>max_distribucion=1</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_individuo.html#Individuo.mutar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_individuo.Individuo.mutar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Este método somete al individuo a un proceso de mutación en el que, cada
+una de sus posiciones, puede verse modificada con una probabilidad
+<cite>prob_mut</cite>. Tras mutar, los atributos <cite>valor_funcion</cite> y <cite>fitness</cite> se
+reinician.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prob_mut</strong> (<cite>float</cite>, optional) – probabilidad que tiene cada posición del individuo de mutar.
+(default 0.01)</li>
+<li><strong>distribucion</strong> (<em>{&quot;normal&quot;</em><em>, </em><em>&quot;uniforme&quot;</em><em>, </em><em>&quot;aleatoria&quot;}</em><em>, </em><em>optional</em>) – distribución de la que obtener el factor de mutación.
+(default “uniforme”)</li>
+<li><strong>media_distribucion</strong> (<cite>float</cite>, optional) – media de la distribución si se selecciona <cite>distribucion = “normal”</cite>
+(default 1)</li>
+<li><strong>sd_distribucion</strong> (<cite>float</cite>, optional) – desviación estándar de la distribución si se selecciona
+<cite>distribucion = “normal”</cite>. (default 1)</li>
+<li><strong>min_distribucion</strong> (<cite>float</cite>, optional) – mínimo de la distribución si se selecciona
+<cite>distribucion = “uniforme”</cite>. (default -1)</li>
+<li><strong>max_distribucion</strong> (<cite>float</cite>, optional) – máximo de la distribución si se selecciona
+<cite>distribucion = “uniforme”</cite>. (default +1)</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><em>raise Exception</em> – si el argumento <cite>distribucion</cite> es distinto de ‘normal’, ‘uniforme’ o
+‘aleatoria’.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Ejemplo mutar individuo.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span> <span class="o">=</span> <span class="n">Individuo</span><span class="p">(</span>
+<span class="go">                n_variables = 3,</span>
+<span class="go">                limites_inf = [-1,2,0],</span>
+<span class="go">                limites_sup = [4,10,20],</span>
+<span class="go">                verbose     = True</span>
+<span class="go">            )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span><span class="o">.</span><span class="n">mutar</span><span class="p">(</span>
+<span class="go">        prob_mut         = 0.5,</span>
+<span class="go">        distribucion     = &quot;uniforme&quot;,</span>
+<span class="go">        min_distribucion = -1,</span>
+<span class="go">        max_distribucion = 1,</span>
+<span class="go">        verbose          = True</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>El proceso de mutación añade diversidad al proceso y evitar que el
+algoritmo caiga en mínimos locales por que todos los individuos sean
+demasiado parecidos de una generación a otra. Existen diferentes
+estrategias para controlar la magnitud del cambio que puede provocar una
+mutación.</p>
+<ul class="simple">
+<li>Distribución uniforme: la mutación de la posición i se consigue</li>
+</ul>
+<p>sumándole al valor de i un valor extraído de una distribución uniforme,
+por ejemplo una entre [-1,+1].</p>
+<ul class="simple">
+<li>Distribución normal: la mutación de la posición i se consigue sumándole</li>
+</ul>
+<blockquote>
+<div>al valor de i un valor extraído de una distribución normal, comúnmente
+centrada en 0 y con una determinada desviación estándar. Cuanto mayor
+la desviación estándar, con mayor probabilidad la mutación introducirá
+cambios grandes.</div></blockquote>
+<ul class="simple">
+<li>Aleatorio: la mutación de la posición i se consigue reemplazando el</li>
+</ul>
+<p>valor de i por nuevo valor aleatorio dentro del rango permitido para esa
+variable. Esta estrategia suele conllevar mayores variaciones que las dos
+anteriores.</p>
+<p>Hay que tener en cuenta que, debido a las mutaciones, un valor que
+inicialmente estaba dentro del rango permitido puede salirse de él.
+Una forma de evitarlo es: si el valor tras la mutación excede alguno de
+los límites acotados, se sobrescribe con el valor del límite. Es decir,
+se permite que los valores se alejen como máximo hasta el límite impuesto.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Joaquín Amat Rodrigo
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

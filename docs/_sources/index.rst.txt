@@ -1,0 +1,18 @@
+ALGORITMO GENÉTICO PARA OPTIMIZACIÓN 
+================================================================================
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Tabla de contenidos:
+
+   ga.introduccion
+   ga.codigo
+   ga.ejemplos
+
+
+Índice y tablas
+================================================================================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

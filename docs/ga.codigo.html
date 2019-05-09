@@ -1,0 +1,1275 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Código Python &mdash; Optimización GA 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Introducción" href="ga.introduccion.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Optimización GA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tabla de contenidos:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ga.introduccion.html">Introducción</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Código Python</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-ga.class_individuo">Individuo</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ga.class_poblacion">Población</a><ul class="simple">
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ga.ejemplos.html">Ejemplos</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Optimización GA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Código Python</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ga.codigo.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="codigo-python">
+<h1>Código Python<a class="headerlink" href="#codigo-python" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-ga.class_individuo">
+<span id="individuo"></span><h2>Individuo<a class="headerlink" href="#module-ga.class_individuo" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ga.class_individuo.Individuo">
+<em class="property">class </em><code class="descclassname">ga.class_individuo.</code><code class="descname">Individuo</code><span class="sig-paren">(</span><em>n_variables</em>, <em>limites_inf=None</em>, <em>limites_sup=None</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_individuo.html#Individuo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_individuo.Individuo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Esta clase representa un individuo con unas características inicial definida
+por una combinación de valores numéricos aleatorios. El rango de posibles
+valores para cada variable puede estar acotado.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n_variables</strong> (<cite>int</cite>) – número de variables que definen al individuo.</li>
+<li><strong>limites_inf</strong> (<cite>list</cite> or <cite>numpy.ndarray</cite>, optional) – límite inferior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los <code class="docutils literal notranslate"><span class="pre">None</span></code> serán remplazados
+por el valor (-10**3). (default <code class="docutils literal notranslate"><span class="pre">None</span></code>)</li>
+<li><strong>limites_sup</strong> (<cite>list</cite> or <cite>numpy.ndarray</cite>, optional) – límite superior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los <code class="docutils literal notranslate"><span class="pre">None</span></code> serán remplazados
+por el valor (+10**3). (default <code class="docutils literal notranslate"><span class="pre">None</span></code>)</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del individuo creado. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.n_variables">
+<code class="descname">n_variables</code><a class="headerlink" href="#ga.class_individuo.Individuo.n_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>número de variables que definen al individuo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>int</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.limites_inf">
+<code class="descname">limites_inf</code><a class="headerlink" href="#ga.class_individuo.Individuo.limites_inf" title="Permalink to this definition">¶</a></dt>
+<dd><p>límite inferior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los <code class="docutils literal notranslate"><span class="pre">None</span></code> serán remplazados por
+el valor (-10**3).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite> or <cite>numpy.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.limites_sup">
+<code class="descname">limites_sup</code><a class="headerlink" href="#ga.class_individuo.Individuo.limites_sup" title="Permalink to this definition">¶</a></dt>
+<dd><p>límite superior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los <code class="docutils literal notranslate"><span class="pre">None</span></code> serán remplazados por
+el valor (+10**3).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite> or <cite>numpy.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.valor_variables">
+<code class="descname">valor_variables</code><a class="headerlink" href="#ga.class_individuo.Individuo.valor_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>array con el valor de cada una de las variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>numpy.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.fitness">
+<code class="descname">fitness</code><a class="headerlink" href="#ga.class_individuo.Individuo.fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>valor de fitness del individuo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>float</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_individuo.Individuo.valor_funcion">
+<code class="descname">valor_funcion</code><a class="headerlink" href="#ga.class_individuo.Individuo.valor_funcion" title="Permalink to this definition">¶</a></dt>
+<dd><p>valor de la función objetivo para el individuo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>float</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><em>raise Exception</em> – si <cite>limites_inf</cite> es distinto de None y su longitud no coincide con
+<cite>n_variables</cite>.</li>
+<li><em>raise Exception</em> – si <cite>limites_sup</cite> es distinto de None y su longitud no coincide con
+<cite>n_variables</cite>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Ejemplo creación individuo.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span> <span class="o">=</span> <span class="n">Individuo</span><span class="p">(</span>
+<span class="go">                    n_variables = 3,</span>
+<span class="go">                    limites_inf = [-1,2,0],</span>
+<span class="go">                    limites_sup = [4,10,20],</span>
+<span class="go">                    verbose     = True</span>
+<span class="go">                )</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#ga.class_individuo.Individuo.calcular_fitness" title="ga.class_individuo.Individuo.calcular_fitness"><code class="xref py py-obj docutils literal notranslate"><span class="pre">calcular_fitness</span></code></a>(funcion_objetivo,&nbsp;optimizacion)</td>
+<td>Este método obtiene el fitness del individuo calculando el valor que toma la función objetivo con el valor de sus variables.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#ga.class_individuo.Individuo.mutar" title="ga.class_individuo.Individuo.mutar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mutar</span></code></a>([prob_mut,&nbsp;distribucion,&nbsp;…])</td>
+<td>Este método somete al individuo a un proceso de mutación en el que, cada una de sus posiciones, puede verse modificada con una probabilidad <cite>prob_mut</cite>.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="ga.class_individuo.Individuo.calcular_fitness">
+<code class="descname">calcular_fitness</code><span class="sig-paren">(</span><em>funcion_objetivo</em>, <em>optimizacion</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_individuo.html#Individuo.calcular_fitness"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_individuo.Individuo.calcular_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Este método obtiene el fitness del individuo calculando el valor que toma
+la función objetivo con el valor de sus variables.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>funcion_objetivo</strong> (<cite>function</cite>) – función que se quiere optimizar.</li>
+<li><strong>optimizacion</strong> (<em>{'maximizar'</em><em>, </em><em>'minimizar'}</em>) – ver notas para más información.</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><em>raise Exception</em> – si el argumento <cite>optimizacion</cite> es distinto de ‘maximizar’ o
+‘minimizar’</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>Cada individuo de la población debe ser evaluado para cuantificar su
+bondad como solución al problema, a esta cuantificación se le llama
+fitness.</p>
+<p>Dependiendo de si se trata de un problema de maximización o minimización,
+la relación del fitness con la función objetivo <span class="math notranslate nohighlight">\(f\)</span> puede ser:</p>
+<p>Maximización: el individuo tiene mayor fitness cuanto mayor es el valor
+de la función objetivo <span class="math notranslate nohighlight">\(f(individuo)\)</span>.</p>
+<p>Minimización: el individuo tiene mayor fitness cuanto menor es el valor
+de la función objetivo <span class="math notranslate nohighlight">\(f(individuo)\)</span>, o lo que es lo mismo,
+cuanto mayor es el valor de la función objetivo, menor el fitness.
+El algoritmo genético selecciona los individuos de mayor fitness, por
+lo que, para problemas de minimización, el fitness puede calcularse como
+<span class="math notranslate nohighlight">\(−f(individuo)\)</span> o también <span class="math notranslate nohighlight">\(\frac{1}{1+f(individuo)}\)</span>.</p>
+<p class="rubric">Examples</p>
+<p>Ejemplo evaluar individuo con una función objetivo.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span> <span class="o">=</span> <span class="n">Individuo</span><span class="p">(</span>
+<span class="go">                n_variables = 3,</span>
+<span class="go">                limites_inf = [-1,2,0],</span>
+<span class="go">                limites_sup = [4,10,20],</span>
+<span class="go">                verbose     = True</span>
+<span class="go">            )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">funcion_objetivo</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">):</span>
+<span class="go">        f= x_0**2 + x_1**2 + x_2**2</span>
+<span class="go">        return(f)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span><span class="o">.</span><span class="n">calcular_fitness</span><span class="p">(</span>
+<span class="go">        funcion_objetivo = funcion_objetivo,</span>
+<span class="go">        optimizacion     = &quot;minimizar&quot;,</span>
+<span class="go">        verbose          = True</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ga.class_individuo.Individuo.mutar">
+<code class="descname">mutar</code><span class="sig-paren">(</span><em>prob_mut=0.01</em>, <em>distribucion='uniforme'</em>, <em>media_distribucion=1</em>, <em>sd_distribucion=1</em>, <em>min_distribucion=-1</em>, <em>max_distribucion=1</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_individuo.html#Individuo.mutar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_individuo.Individuo.mutar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Este método somete al individuo a un proceso de mutación en el que, cada
+una de sus posiciones, puede verse modificada con una probabilidad
+<cite>prob_mut</cite>. Tras mutar, los atributos <cite>valor_funcion</cite> y <cite>fitness</cite> se
+reinician.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prob_mut</strong> (<cite>float</cite>, optional) – probabilidad que tiene cada posición del individuo de mutar.
+(default 0.01)</li>
+<li><strong>distribucion</strong> (<em>{&quot;normal&quot;</em><em>, </em><em>&quot;uniforme&quot;</em><em>, </em><em>&quot;aleatoria&quot;}</em><em>, </em><em>optional</em>) – distribución de la que obtener el factor de mutación.
+(default “uniforme”)</li>
+<li><strong>media_distribucion</strong> (<cite>float</cite>, optional) – media de la distribución si se selecciona <cite>distribucion = “normal”</cite>
+(default 1)</li>
+<li><strong>sd_distribucion</strong> (<cite>float</cite>, optional) – desviación estándar de la distribución si se selecciona
+<cite>distribucion = “normal”</cite>. (default 1)</li>
+<li><strong>min_distribucion</strong> (<cite>float</cite>, optional) – mínimo de la distribución si se selecciona
+<cite>distribucion = “uniforme”</cite>. (default -1)</li>
+<li><strong>max_distribucion</strong> (<cite>float</cite>, optional) – máximo de la distribución si se selecciona
+<cite>distribucion = “uniforme”</cite>. (default +1)</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><em>raise Exception</em> – si el argumento <cite>distribucion</cite> es distinto de ‘normal’, ‘uniforme’ o
+‘aleatoria’.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Ejemplo mutar individuo.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span> <span class="o">=</span> <span class="n">Individuo</span><span class="p">(</span>
+<span class="go">                n_variables = 3,</span>
+<span class="go">                limites_inf = [-1,2,0],</span>
+<span class="go">                limites_sup = [4,10,20],</span>
+<span class="go">                verbose     = True</span>
+<span class="go">            )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">individuo</span><span class="o">.</span><span class="n">mutar</span><span class="p">(</span>
+<span class="go">        prob_mut         = 0.5,</span>
+<span class="go">        distribucion     = &quot;uniforme&quot;,</span>
+<span class="go">        min_distribucion = -1,</span>
+<span class="go">        max_distribucion = 1,</span>
+<span class="go">        verbose          = True</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>El proceso de mutación añade diversidad al proceso y evitar que el
+algoritmo caiga en mínimos locales por que todos los individuos sean
+demasiado parecidos de una generación a otra. Existen diferentes
+estrategias para controlar la magnitud del cambio que puede provocar una
+mutación.</p>
+<p>Distribución uniforme: la mutación de la posición i se consigue
+sumándole al valor de i un valor extraído de una distribución uniforme,
+por ejemplo una entre [-1,+1].</p>
+<p>Distribución normal: la mutación de la posición i se consigue sumándole
+al valor de i un valor extraído de una distribución normal, comúnmente
+centrada en 0 y con una determinada desviación estándar. Cuanto mayor
+la desviación estándar, con mayor probabilidad la mutación introducirá
+cambios grandes.</p>
+<p>Aleatorio: la mutación de la posición i se consigue reemplazando el
+valor de i por nuevo valor aleatorio dentro del rango permitido para esa
+variable. Esta estrategia suele conllevar mayores variaciones que las dos
+anteriores.</p>
+<p>Hay que tener en cuenta que, debido a las mutaciones, un valor que
+inicialmente estaba dentro del rango permitido puede salirse de él.
+Una forma de evitarlo es: si el valor tras la mutación excede alguno de
+los límites acotados, se sobrescribe con el valor del límite. Es decir,
+se permite que los valores se alejen como máximo hasta el límite impuesto.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ga.class_poblacion">
+<span id="poblacion"></span><h2>Población<a class="headerlink" href="#module-ga.class_poblacion" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ga.class_poblacion.Poblacion">
+<em class="property">class </em><code class="descclassname">ga.class_poblacion.</code><code class="descname">Poblacion</code><span class="sig-paren">(</span><em>n_individuos</em>, <em>n_variables</em>, <em>limites_inf=None</em>, <em>limites_sup=None</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_poblacion.html#Poblacion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_poblacion.Poblacion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Esta clase crea una población de n individuos.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n_individuos</strong> (<cite>int</cite>) – número de individuos de la población.</li>
+<li><strong>n_variables</strong> (<cite>int</cite>) – número de variables que definen a cada individuo.</li>
+<li><strong>limites_inf</strong> (<cite>list</cite> or <cite>numpy.ndarray</cite>) – límite inferior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los <code class="docutils literal notranslate"><span class="pre">None</span></code> serán remplazados por
+el valor (-10**3).</li>
+<li><strong>limites_sup</strong> (<cite>list</cite> or <cite>numpy.ndarray</cite>) – límite superior de cada variable. Si solo se quiere predefinir límites
+de alguna variable, emplear <code class="docutils literal notranslate"><span class="pre">None</span></code>. Los``None`` serán remplazados por
+el valor (+10**3).</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.individuos">
+<code class="descname">individuos</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.individuos" title="Permalink to this definition">¶</a></dt>
+<dd><p>lista con todos los individuos de la población en su estado actual.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.n_individuos">
+<code class="descname">n_individuos</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.n_individuos" title="Permalink to this definition">¶</a></dt>
+<dd><p>número de individuos de la población.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>int</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.n_variables">
+<code class="descname">n_variables</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.n_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>número de variables que definen a cada individuo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>int</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.limites_inf">
+<code class="descname">limites_inf</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.limites_inf" title="Permalink to this definition">¶</a></dt>
+<dd><p>límite inferior de cada variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite> or <cite>numpy.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.limites_sup">
+<code class="descname">limites_sup</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.limites_sup" title="Permalink to this definition">¶</a></dt>
+<dd><p>límite superior de cada variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite> or <cite>numpy.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.mejor_individuo">
+<code class="descname">mejor_individuo</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.mejor_individuo" title="Permalink to this definition">¶</a></dt>
+<dd><p>mejor individuo de la población en su estado actual.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>object individuo</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.mejor_fitness">
+<code class="descname">mejor_fitness</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.mejor_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>fitness del mejor individuo de la población en su estado actual.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>float</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.mejor_valor_funcion">
+<code class="descname">mejor_valor_funcion</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.mejor_valor_funcion" title="Permalink to this definition">¶</a></dt>
+<dd><p>valor de la función objetivo del mejor individuo de la población en su
+estado actual.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>float</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.mejor_individuo_variables">
+<code class="descname">mejor_individuo_variables</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.mejor_individuo_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>valor de las variables del mejor individuo de la población en su estado
+actual.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>numpy.ndarray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.historico_individuos">
+<code class="descname">historico_individuos</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.historico_individuos" title="Permalink to this definition">¶</a></dt>
+<dd><p>lista con la información de todos los individuos en cada una de las
+generaciones que ha tenido la población.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.historico_mejor_individuo_variables">
+<code class="descname">historico_mejor_individuo_variables</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.historico_mejor_individuo_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>lista con valor de las variables del mejor individuo en cada una de las
+generaciones que ha tenido la población.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.historico_mejor_fitness">
+<code class="descname">historico_mejor_fitness</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.historico_mejor_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>lista con el mejor fitness en cada una de las generaciones que ha tenido
+la población.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.historico_mejor_valor_funcion">
+<code class="descname">historico_mejor_valor_funcion</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.historico_mejor_valor_funcion" title="Permalink to this definition">¶</a></dt>
+<dd><p>lista con valor de la función objetivo del mejor individuo en cada una
+de las generaciones que ha tenido la población.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.diferencia_abs">
+<code class="descname">diferencia_abs</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.diferencia_abs" title="Permalink to this definition">¶</a></dt>
+<dd><p>diferencia absoluta entre el mejor fitness de generaciones consecutivas.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>list</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.resultados_df">
+<code class="descname">resultados_df</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.resultados_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>dataframe con la información del mejor fitness y valor de las variables
+encontrado en cada generación, así como la diferencia respecto a la
+generación anterior.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>pandas.core.frame.DataFrame</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.fitness_optimo">
+<code class="descname">fitness_optimo</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.fitness_optimo" title="Permalink to this definition">¶</a></dt>
+<dd><p>mejor fitness encontrado tras el proceso de optimización.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>float</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.valor_funcion_optimo">
+<code class="descname">valor_funcion_optimo</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.valor_funcion_optimo" title="Permalink to this definition">¶</a></dt>
+<dd><p>valor de la función objetivo encontrado tras el proceso de optimización.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>float</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.valor_variables_optimo">
+<code class="descname">valor_variables_optimo</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.valor_variables_optimo" title="Permalink to this definition">¶</a></dt>
+<dd><p>valor de las variables con el que se ha conseguido el mejor fitness tras
+el proceso de optimización.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>numpy.narray</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.optimizado">
+<code class="descname">optimizado</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.optimizado" title="Permalink to this definition">¶</a></dt>
+<dd><p>si la población ha sido optimizada.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>bool</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ga.class_poblacion.Poblacion.iter_optimizacion">
+<code class="descname">iter_optimizacion</code><a class="headerlink" href="#ga.class_poblacion.Poblacion.iter_optimizacion" title="Permalink to this definition">¶</a></dt>
+<dd><p>número de iteraciones de optimización (generaciones).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Type:</th><td class="field-body"><cite>int</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<p>Ejemplo crear población</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span> <span class="o">=</span> <span class="n">Poblacion</span><span class="p">(</span>
+<span class="go">                    n_individuos = 3,</span>
+<span class="go">                    n_variables  = 3,</span>
+<span class="go">                    limites_inf  = [-5,-5,-5],</span>
+<span class="go">                    limites_sup  = [5,5,5],</span>
+<span class="go">                    verbose = True</span>
+<span class="go">                    )</span>
+</pre></div>
+</div>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#ga.class_poblacion.Poblacion.crear_nueva_generecion" title="ga.class_poblacion.Poblacion.crear_nueva_generecion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crear_nueva_generecion</span></code></a>([metodo_seleccion,&nbsp;…])</td>
+<td>Este método somete la población a una nueva generación.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#ga.class_poblacion.Poblacion.cruzar_individuos" title="ga.class_poblacion.Poblacion.cruzar_individuos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cruzar_individuos</span></code></a>(parental_1,&nbsp;parental_2[,&nbsp;…])</td>
+<td>Este método genera un nuevo individuo a partir de dos individuos parentales empleando el método de cruzamiento uniforme.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#ga.class_poblacion.Poblacion.evaluar_poblacion" title="ga.class_poblacion.Poblacion.evaluar_poblacion"><code class="xref py py-obj docutils literal notranslate"><span class="pre">evaluar_poblacion</span></code></a>(funcion_objetivo,&nbsp;optimizacion)</td>
+<td>Este método calcula el fitness de todos los individuos de la población, actualiza sus valores e identifica el mejor.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#ga.class_poblacion.Poblacion.mostrar_individuos" title="ga.class_poblacion.Poblacion.mostrar_individuos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mostrar_individuos</span></code></a>([n])</td>
+<td>Este método muestra la información de cada uno de los n primeros individuos de la población.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#ga.class_poblacion.Poblacion.optimizar" title="ga.class_poblacion.Poblacion.optimizar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">optimizar</span></code></a>(funcion_objetivo,&nbsp;optimizacion[,&nbsp;…])</td>
+<td>Este método realiza el proceso de optimización de una población.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#ga.class_poblacion.Poblacion.seleccionar_individuo" title="ga.class_poblacion.Poblacion.seleccionar_individuo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">seleccionar_individuo</span></code></a>(n[,&nbsp;return_indices,&nbsp;…])</td>
+<td>Este método selecciona los índices de n individuos de una población, donde la probabilidad de selección está relacionada con el fitness de cada individuo.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="ga.class_poblacion.Poblacion.crear_nueva_generecion">
+<code class="descname">crear_nueva_generecion</code><span class="sig-paren">(</span><em>metodo_seleccion='tournament'</em>, <em>elitismo=0.1</em>, <em>prob_mut=0.01</em>, <em>distribucion='uniforme'</em>, <em>media_distribucion=1</em>, <em>sd_distribucion=1</em>, <em>min_distribucion=-1</em>, <em>max_distribucion=1</em>, <em>verbose=False</em>, <em>verbose_seleccion=False</em>, <em>verbose_cruce=False</em>, <em>verbose_mutacion=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_poblacion.html#Poblacion.crear_nueva_generecion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_poblacion.Poblacion.crear_nueva_generecion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Este método somete la población a una nueva generación.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>metodo_seleccion</strong> (<em>{&quot;ruleta&quot;</em><em>, </em><em>&quot;rank&quot;</em><em>, </em><em>&quot;tournament&quot;}</em>) – método de selección de selección, ver notas para más información.
+(default <cite>tournament</cite>)</li>
+<li><strong>elitismo</strong> (<cite>float</cite>, optional) – porcentaje de mejores individuos de la población actual que pasan
+directamente a la siguiente población. De esta forma, se asegura
+que, la siguiente generación, no sea nunca peor. (default <cite>0.1</cite>)</li>
+<li><strong>prob_mut</strong> (<cite>float</cite>, optional) – probabilidad que tiene cada posición del individuo de mutar.
+(default 0.01)</li>
+<li><strong>distribucion</strong> (<em>{&quot;normal&quot;</em><em>, </em><em>&quot;uniforme&quot;</em><em>, </em><em>&quot;aleatoria&quot;}</em><em>, </em><em>optional</em>) – distribución de la que obtener el factor de mutación.
+(default “uniforme”)</li>
+<li><strong>media_distribucion</strong> (<cite>float</cite>, optional) – media de la distribución si se selecciona <cite>distribucion = “normal”</cite>
+(default 1)</li>
+<li><strong>sd_distribucion</strong> (<cite>float</cite>, optional) – desviación estándar de la distribución si se selecciona
+<cite>distribucion = “normal”</cite>. (default 1)</li>
+<li><strong>min_distribucion</strong> (<cite>float</cite>, optional) – mínimo de la distribución si se selecciona
+<cite>distribucion = “uniforme”</cite>. (default -1)</li>
+<li><strong>max_distribucion</strong> (<cite>float</cite>, optional) – máximo de la distribución si se selecciona
+<cite>distribucion = “uniforme”</cite>. (default +1)</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+<li><strong>verbose_seleccion</strong> (<cite>bool</cite>, optional) – mostrar información de cada selección por pantalla.
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+<li><strong>verbose_cruce</strong> (<cite>bool</cite>, optional) – mostrar información de cada cruce por pantalla.
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+<li><strong>verbose_mutacion</strong> (<cite>bool</cite>, optional) – mostrar información de cada mutación por pantalla.
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span> <span class="o">=</span> <span class="n">Poblacion</span><span class="p">(</span>
+<span class="go">       n_individuos = 5,</span>
+<span class="go">       n_variables  = 3,</span>
+<span class="go">       limites_inf  = [-5,-5,-5],</span>
+<span class="go">       limites_sup  = [5,5,5],</span>
+<span class="go">       verbose      = True</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">funcion_objetivo</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">):</span>
+<span class="go">        f= x_0**2 + x_1**2 + x_2**2</span>
+<span class="go">        return(f)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span><span class="o">.</span><span class="n">evaluar_poblacion</span><span class="p">(</span>
+<span class="go">        funcion_objetivo = funcion_objetivo,</span>
+<span class="go">        optimizacion     = &quot;minimizar&quot;,</span>
+<span class="go">        verbose          = True</span>
+<span class="go">        )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span><span class="o">.</span><span class="n">crear_nueva_generecion</span><span class="p">(</span>
+<span class="go">        metodo_seleccion   = &quot;tournament&quot;,</span>
+<span class="go">        elitismo           = 0.1,</span>
+<span class="go">        prob_mut           = 0.01,</span>
+<span class="go">        distribucion       = &quot;uniforme&quot;,</span>
+<span class="go">        verbose            = True,</span>
+<span class="go">        verbose_seleccion  = False,</span>
+<span class="go">        verbose_cruce      = False,</span>
+<span class="go">        verbose_mutacion   = False</span>
+<span class="go">        )</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ga.class_poblacion.Poblacion.cruzar_individuos">
+<code class="descname">cruzar_individuos</code><span class="sig-paren">(</span><em>parental_1</em>, <em>parental_2</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_poblacion.html#Poblacion.cruzar_individuos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_poblacion.Poblacion.cruzar_individuos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Este método genera un nuevo individuo a partir de dos individuos
+parentales empleando el método de cruzamiento uniforme.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>parental_1</strong> (<cite>int</cite>) – índice del individuo de la población que se quiere emplear como
+parental 1 para el cruzamiento.</li>
+<li><strong>parental_1</strong> – índice del individuo de la población que se quiere emplear como
+parental 1 para el cruzamiento.</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><em>raise Exception</em> – si los índices parental_1 o parental_2 no son índices válidos.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>descendencia</strong> – Nuevo individuo generado por cruzamiento de dos parentales.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><cite>Individuo</cite></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span> <span class="o">=</span> <span class="n">Poblacion</span><span class="p">(</span>
+<span class="go">       n_individuos = 5,</span>
+<span class="go">       n_variables  = 3,</span>
+<span class="go">       limites_inf  = [-5,-5,-5],</span>
+<span class="go">       limites_sup  = [5,5,5]</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">descendencia</span> <span class="o">=</span> <span class="n">poblacion</span><span class="o">.</span><span class="n">cruzar_individuos</span><span class="p">(</span>
+<span class="go">                    parental_1 = 0,</span>
+<span class="go">                    parental_2 = 1,</span>
+<span class="go">                    verbose    = True</span>
+<span class="go">                   )</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>El objetivo del cruzamiento es generar, a partir de individuos ya
+existentes (parentales), nuevos individuos (descendencia) que combinen
+las características de los anteriores. Este es otro de los puntos del
+algoritmo en los que se puede seguir varias estrategias. Tres de las más
+empleadas son:</p>
+<p>Cruzamiento a partir de uno solo punto: se selecciona aleatoriamente
+una posición que actúa como punto de corte. Cada individuo parental se
+divide en dos partes y se intercambian las mitades. Como resultado de
+este proceso, por cada cruce, se generan dos nuevos individuos.</p>
+<p>Cruzamiento a partir múltiples puntos: se seleccionan aleatoriamente
+varias posiciones que actúan como puntos de corte. Cada individuo
+parental se divide por los puntos de corte y se intercambian las partes.
+Como resultado de este proceso, por cada cruce, se generan dos nuevos
+individuos.</p>
+<p>Cruzamiento uniforme: el valor que toma cada posición del nuevo
+individuo se obtiene de uno de los dos parentales. Por lo general,
+la probabilidad de que el valor proceda de cada parental es la misma,
+aunque podría, por ejemplo, estar condicionada al fitness de cada uno.
+A diferencia de las anteriores estrategias, con esta, de cada cruce se
+genera un único descendiente.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ga.class_poblacion.Poblacion.evaluar_poblacion">
+<code class="descname">evaluar_poblacion</code><span class="sig-paren">(</span><em>funcion_objetivo</em>, <em>optimizacion</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_poblacion.html#Poblacion.evaluar_poblacion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_poblacion.Poblacion.evaluar_poblacion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Este método calcula el fitness de todos los individuos de la población,
+actualiza sus valores e identifica el mejor.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>funcion_objetivo</strong> (<cite>function</cite>) – función que se quiere optimizar.</li>
+<li><strong>optimizacion</strong> (<em>{&quot;maximizar&quot; o &quot;minimizar&quot;}</em>) – si se desea maximizar o minimizar la función.</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Ejemplo evaluar población</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span> <span class="o">=</span> <span class="n">Poblacion</span><span class="p">(</span>
+<span class="go">       n_individuos = 5,</span>
+<span class="go">       n_variables  = 3,</span>
+<span class="go">       limites_inf  = [-5,-5,-5],</span>
+<span class="go">       limites_sup  = [5,5,5],</span>
+<span class="go">       verbose      = True</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">funcion_objetivo</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">):</span>
+<span class="go">        f= x_0**2 + x_1**2 + x_2**2</span>
+<span class="go">        return(f)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span><span class="o">.</span><span class="n">evaluar_poblacion</span><span class="p">(</span>
+<span class="go">        funcion_objetivo = funcion_objetivo,</span>
+<span class="go">        optimizacion     = &quot;minimizar&quot;,</span>
+<span class="go">        verbose          = True</span>
+<span class="go">        )</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ga.class_poblacion.Poblacion.mostrar_individuos">
+<code class="descname">mostrar_individuos</code><span class="sig-paren">(</span><em>n=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_poblacion.html#Poblacion.mostrar_individuos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_poblacion.Poblacion.mostrar_individuos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Este método muestra la información de cada uno de los n primeros
+individuos de la población.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<cite>int</cite>) – número de individuos que se muestran. Si no se indica el valor
+(por defecto <code class="docutils literal notranslate"><span class="pre">None</span></code>), se muestran todas. Si el valor es mayor
+que <cite>self.n_individuos</cite> se muestran todas.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span> <span class="o">=</span> <span class="n">Poblacion</span><span class="p">(</span>
+<span class="go">       n_individuos = 5,</span>
+<span class="go">       n_variables  = 3,</span>
+<span class="go">       limites_inf  = [-5,-5,-5],</span>
+<span class="go">       limites_sup  = [5,5,5],</span>
+<span class="go">       verbose      = True</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span><span class="o">.</span><span class="n">mostrar_individuos</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ga.class_poblacion.Poblacion.optimizar">
+<code class="descname">optimizar</code><span class="sig-paren">(</span><em>funcion_objetivo</em>, <em>optimizacion</em>, <em>n_generaciones=50</em>, <em>metodo_seleccion='tournament'</em>, <em>elitismo=0.1</em>, <em>prob_mut=0.01</em>, <em>distribucion='uniforme'</em>, <em>media_distribucion=1</em>, <em>sd_distribucion=1</em>, <em>min_distribucion=-1</em>, <em>max_distribucion=1</em>, <em>parada_temprana=False</em>, <em>rondas_parada=None</em>, <em>tolerancia_parada=None</em>, <em>verbose=False</em>, <em>verbose_nueva_generacion=False</em>, <em>verbose_seleccion=False</em>, <em>verbose_cruce=False</em>, <em>verbose_mutacion=False</em>, <em>verbose_evaluacion=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_poblacion.html#Poblacion.optimizar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_poblacion.Poblacion.optimizar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Este método realiza el proceso de optimización de una población.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>funcion_objetivo</strong> (<cite>function</cite>) – función que se quiere optimizar.</li>
+<li><strong>optimizacion</strong> (<em>{&quot;maximizar&quot; o &quot;minimizar&quot;}</em>) – si se desea maximizar o minimizar la función.</li>
+<li><strong>n_generaciones</strong> (<cite>int</cite> , optional) – número de generaciones de optimización. (default <code class="docutils literal notranslate"><span class="pre">50</span></code>)</li>
+<li><strong>metodo_seleccion</strong> (<em>{&quot;ruleta&quot;</em><em>, </em><em>&quot;rank&quot;</em><em>, </em><em>&quot;tournament&quot;}</em>) – método de selección de selección, ver notas para más información.
+(default <cite>tournament</cite>)</li>
+<li><strong>elitismo</strong> (<cite>float</cite>, optional) – porcentaje de mejores individuos de la población actual que pasan
+directamente a la siguiente población. De esta forma, se asegura
+que, la siguiente generación, no sea nunca peor. (default <cite>0.1</cite>)</li>
+<li><strong>prob_mut</strong> (<cite>float</cite>, optional) – probabilidad que tiene cada posición del individuo de mutar.
+(default 0.01)</li>
+<li><strong>distribucion</strong> (<em>{&quot;normal&quot;</em><em>, </em><em>&quot;uniforme&quot;</em><em>, </em><em>&quot;aleatoria&quot;}</em><em>, </em><em>optional</em>) – distribución de la que obtener el factor de mutación.
+(default “uniforme”)</li>
+<li><strong>media_distribucion</strong> (<cite>float</cite>, optional) – media de la distribución si se selecciona <cite>distribucion = “normal”</cite>
+(default 1)</li>
+<li><strong>sd_distribucion</strong> (<cite>float</cite>, optional) – desviación estándar de la distribución si se selecciona
+<cite>distribucion = “normal”</cite>. (default 1)</li>
+<li><strong>min_distribucion</strong> (<cite>float</cite>, optional) – mínimo de la distribución si se selecciona
+<cite>distribucion = “uniforme”</cite>. (default -1)</li>
+<li><strong>max_distribucion</strong> (<cite>float</cite>, optional) – máximo de la distribución si se selecciona
+<cite>distribucion = “uniforme”</cite>. (default +1)</li>
+<li><strong>parada_temprana</strong> (<cite>bool</cite>, optional) – si durante las últimas <cite>rondas_parada</cite> generaciones la diferencia
+absoluta entre mejores individuos no es superior al valor de
+<cite>tolerancia_parada</cite>, se detiene el algoritmo y no se crean nuevas
+generaciones. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+<li><strong>rondas_parada</strong> (<cite>int</cite>, optional) – número de generaciones consecutivas sin mejora mínima para que se
+active la parada temprana. (default <code class="docutils literal notranslate"><span class="pre">None</span></code>)</li>
+<li><strong>tolerancia_parada</strong> (<cite>float</cite> or <cite>int</cite>, optional) – valor mínimo que debe tener la diferencia de generaciones consecutivas
+para considerar que hay cambio. (default <code class="docutils literal notranslate"><span class="pre">None</span></code>)</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+<li><strong>verbose_nueva_generacion</strong> (<cite>bool</cite>, optional) – mostrar información de cada nueva generación por pantalla.
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+<li><strong>verbose_seleccion</strong> (<cite>bool</cite>, optional) – mostrar información de cada selección por pantalla.
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+<li><strong>verbose_cruce</strong> (<cite>bool</cite>, optional) – mostrar información de cada cruce por pantalla.
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+<li><strong>verbose_mutacion</strong> (<cite>bool</cite>, optional) – mostrar información de cada mutación por pantalla.
+(default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><em>raise Exception</em> – si se indica <cite>parada_temprana = True</cite> y los argumentos <cite>rondas_parada</cite>
+o <cite>tolerancia_parada</cite> son <code class="docutils literal notranslate"><span class="pre">None</span></code>.</li>
+<li><em>raise Exception</em> – si el argumento <cite>metodo_seleccion</cite> no es ‘ruleta’, ‘rank’ o
+‘tournament’.</li>
+<li><em>raise Exception</em> – si el argumento <cite>optimizacion</cite> es distinto de ‘maximizar’ o
+‘minimizar</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Ejemplo optimización</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">funcion_objetivo</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">):</span>
+<span class="go">        # Para la región acotada entre −10&lt;=x_0&lt;=0 y −6.5&lt;=x_1&lt;=0 la</span>
+<span class="go">        # función tiene múltiples mínimos locales y un único minimo</span>
+<span class="go">        # global en f(−3.1302468,−1.5821422)= −106.7645367.</span>
+<span class="go">        f = np.sin(x_1)*np.exp(1-np.cos(x_0))**2                     + np.cos(x_0)*np.exp(1-np.sin(x_1))**2                     + (x_0-x_1)**2</span>
+<span class="go">        return(f)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span> <span class="o">=</span> <span class="n">Poblacion</span><span class="p">(</span>
+<span class="go">                n_individuos = 50,</span>
+<span class="go">                n_variables  = 2,</span>
+<span class="go">                limites_inf  = [-10, -6.5],</span>
+<span class="go">                limites_sup  = [0, 0],</span>
+<span class="go">                verbose      = False</span>
+<span class="go">                )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span><span class="o">.</span><span class="n">optimizar</span><span class="p">(</span>
+<span class="go">        funcion_objetivo   = funcion_objetivo,</span>
+<span class="go">        optimizacion       = &quot;minimizar&quot;,</span>
+<span class="go">        n_generaciones     = 250,</span>
+<span class="go">        metodo_seleccion   = &quot;tournament&quot;,</span>
+<span class="go">        elitismo           = 0.1,</span>
+<span class="go">        prob_mut           = 0.01,</span>
+<span class="go">        distribucion       = &quot;uniforme&quot;,</span>
+<span class="go">        media_distribucion = 1,</span>
+<span class="go">        sd_distribucion    = 1,</span>
+<span class="go">        min_distribucion   = -1,</span>
+<span class="go">        max_distribucion   = 1,</span>
+<span class="go">        parada_temprana    = True,</span>
+<span class="go">        rondas_parada      = 10,</span>
+<span class="go">        tolerancia_parada  = 10**-16,</span>
+<span class="go">        verbose            = False</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ga.class_poblacion.Poblacion.seleccionar_individuo">
+<code class="descname">seleccionar_individuo</code><span class="sig-paren">(</span><em>n</em>, <em>return_indices=True</em>, <em>metodo_seleccion='tournament'</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ga/class_poblacion.html#Poblacion.seleccionar_individuo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ga.class_poblacion.Poblacion.seleccionar_individuo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Este método selecciona los índices de n individuos de una población,
+donde la probabilidad de selección está relacionada con el fitness de
+cada individuo. Si el argumento <cite>return_indices=False</cite> en lugar de los
+índices se devuelve una copia de los individuos seleccionados.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>n</strong> (<cite>int</cite>) – número de individuos de la población seleccionados.</li>
+<li><strong>return_indices</strong> (<cite>bool</cite>, optional) – cuando es True, se devuelve el indice que ocupan los individuos
+seleccionados, cuando es False se devuelve una lista que contiene una
+copia de los individuos. (default <code class="docutils literal notranslate"><span class="pre">True</span></code>)</li>
+<li><strong>metodo_seleccion</strong> (<em>{&quot;ruleta&quot;</em><em>, </em><em>&quot;rank&quot;</em><em>, </em><em>&quot;tournament&quot;}</em>) – método de selección de selección, ver notas para más información.
+(default <cite>tournament</cite>)</li>
+<li><strong>verbose</strong> (<cite>bool</cite>, optional) – mostrar información del proceso por pantalla. (default <code class="docutils literal notranslate"><span class="pre">False</span></code>)</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><em>raise Exception</em> – si el argumento <cite>metodo_seleccion</cite> no es ‘ruleta’, ‘rank’ o
+‘tournament’.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>indices</strong> (<cite>numpy.ndarray</cite>) – índice de los individuos seleccionados (si <cite>return_indices=True</cite>).</li>
+<li><strong>individuos</strong> (<cite>list</cite>) – lista con los individuos seleccionados (si <cite>return_indices=False</cite>).</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span> <span class="o">=</span> <span class="n">Poblacion</span><span class="p">(</span>
+<span class="go">       n_individuos = 5,</span>
+<span class="go">       n_variables  = 3,</span>
+<span class="go">       limites_inf  = [-5,-5,-5],</span>
+<span class="go">       limites_sup  = [5,5,5],</span>
+<span class="go">       verbose      = True</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">funcion_objetivo</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">,</span> <span class="n">x_2</span><span class="p">):</span>
+<span class="go">        f= x_0**2 + x_1**2 + x_2**2</span>
+<span class="go">        return(f)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span><span class="o">.</span><span class="n">evaluar_poblacion</span><span class="p">(</span>
+<span class="go">        funcion_objetivo = funcion_objetivo,</span>
+<span class="go">        optimizacion     = &quot;minimizar&quot;,</span>
+<span class="go">        verbose          = True</span>
+<span class="go">        )</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">poblacion</span><span class="o">.</span><span class="n">seleccionar_individuo</span><span class="p">(</span>
+<span class="go">        n                = 2,</span>
+<span class="go">        return_indices   = True,</span>
+<span class="go">        metodo_seleccion = &quot;tournament&quot;,</span>
+<span class="go">        verbose          = True</span>
+<span class="go">    )</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<p>La forma en que se seleccionan los individuos que participan en cada cruce
+difiere en las distintas implementaciones de los algoritmos genéticos.
+Por lo general, todas ellas tienden a favorecer la selección de aquellos
+individuos con mayor fitness. Algunas de las estrategias más comunes son:</p>
+<p>Método de ruleta: la probabilidad de que un individuo sea seleccionado
+es proporcional a su fitness relativo, es decir, a su fitness dividido
+por la suma del fitness de todos los individuos de la población. Si el
+fitness de un individuo es el doble que el de otro, también lo será la
+probabilidad de que sea seleccionado. Este método presenta problemas si
+el fitness de unos pocos individuos es muy superior (varios órdenes de
+magnitud) al resto, ya que estos serán seleccionados de forma repetida y
+casi todos los individuos de la siguiente generación serán “hijos” de
+los mismos “padres” (poca variación).</p>
+<p>Método rank: la probabilidad de selección de un individuo es inversamente
+proporcional a la posición que ocupa tras ordenar todos los individuos
+de mayor a menor fitness. Este método es menos agresivo que el método
+ruleta cuando la diferencia entre los mayores fitness es varios órdenes
+de magnitud superior al resto.</p>
+<p>Selección competitiva (tournament): se seleccionan aleatoriamente dos
+parejas de individuos de la población (todos con la misma probabilidad).
+De cada pareja se selecciona el que tenga mayor fitness. Finalmente,
+se comparan los dos finalistas y se selecciona el de mayor fitness. Este
+método tiende a generar una distribución de la probabilidad de selección
+más equilibrada que las dos anteriores.</p>
+<p>Selección truncada (truncated selection): se realizan selecciones
+aleatorias de individuos, habiendo descartado primero los n individuos
+con menor fitness de la población.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="ga.introduccion.html" class="btn btn-neutral float-left" title="Introducción" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Joaquín Amat Rodrigo
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,19 @@
+Ejemplos
+================================================================================
+
+
+
+.. code-block:: python
+
+    import numpy as np
+    import random
+    import warnings
+    import random
+    import copy
+    import pandas as pd
+    import time
+    import matplotlib
+    import matplotlib.pyplot as plt
+    from datetime import datetime
+    
+

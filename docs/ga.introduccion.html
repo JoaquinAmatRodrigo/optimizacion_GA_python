@@ -1,0 +1,294 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Introducción &mdash; Optimización GA 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Codigo Python" href="ga.codigo.html" />
+    <link rel="prev" title="ALGORITMO GENÉTICO PARA OPTIMIZACIÓN" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Optimización GA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tabla de contenidos:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introducción</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#algoritmo">Algoritmo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#poblacion">Población</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fitness">Fitness</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#seleccionar-individuos">Seleccionar individuos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cruzar-dos-individuos-crossover-recombinacion">Cruzar dos individuos (<em>crossover</em>, recombinación)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mutar-individuo">Mutar individuo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ga.codigo.html">Codigo Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga.ejemplos.html">Ejemplos</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Optimización GA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Introducción</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ga.introduccion.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="introduccion">
+<h1>Introducción<a class="headerlink" href="#introduccion" title="Permalink to this headline">¶</a></h1>
+<p>Los algoritmos genéticos son métodos de optimización heurística que, entre otras aplicaciones, pueden emplearse para encontrar el valor o valores que consiguen maximizar o minimizar una función. Su funcionamiento está inspirado en la <a class="reference external" href="https://es.wikipedia.org/wiki/Selecci%C3%B3n_natural/">teoría evolutiva de selección natural</a> propuesta por Darwin y Alfred Russel: los individuos de una población se reproducen generando nuevos descendientes, cuyas características, son combinación de las características de los progenitores (más ciertas mutaciones). De todos ellos, únicamente los mejores individuos sobreviven y pueden reproducirse de nuevo, transmitiendo así sus características a las siguientes generaciones.</p>
+<blockquote>
+<div><p>El método de algoritmo genético es solo una de las muchas estrategias de optimización heurística que existen, una alternativa común es el método <a class="reference external" href="https://github.com/JoaquinAmatRodrigo/optimizacion_PSO_python/">enjambre de partículas</a></p>
+<p>La optimización heurística no tiene por qué ser la forma de optimización más adecuada en todos los escenarios. Si el problema en cuestión puede optimizarse de forma analítica, suele ser más adecuado resolverlo de esta forma.</p>
+<p>La implementación de algoritmo que se muestra en este documento pretende ser lo más explicativa posible aunque para ello no sea la más eficiente.</p>
+</div></blockquote>
+<p>El código de las funciones desarrolladas a lo largo del documento puede descargarse en el siguiente <a class="reference external" href="https://github.com/JoaquinAmatRodrigo/optimizacion_algoritmo_genetico/">Link</a>.</p>
+<div class="section" id="algoritmo">
+<h2>Algoritmo<a class="headerlink" href="#algoritmo" title="Permalink to this headline">¶</a></h2>
+<p>Aunque existen variaciones, algunas de las cuales se describen a lo largo de este documento, en términos generales, la estructura de un algoritmo genético para optimizar (maximizar o minimizar) una función con una o múltiples variables sigue los siguientes pasos:</p>
+<hr class="docutils" />
+<ol class="arabic">
+<li><p class="first">Crear una población inicial aleatoria de <em>P</em> individuos. En este caso, cada individuo representa una combinación de valores de las variables.</p>
+</li>
+<li><p class="first">Calcular la fortaleza (<em>fitness</em>) de cada individuo de la población. El <em>fitness</em> está relacionado con el valor de la función objetivo para cada individuo. Si se quiere maximizar, cuanto mayor sea el valor de la función para el individuo, mayor su fitness. En el caso de minimización, ocurre lo contrario.</p>
+</li>
+<li><p class="first">Crear una nueva población vacía y repetir los siguientes pasos hasta que se hayan creado <em>P</em> nuevos individuos.</p>
+<blockquote>
+<div><p>3.1. Seleccionar dos individuos de la población existente, donde la probabilidad de selección es proporcional al <em>fitness</em> de los individuos.</p>
+<p>3.2. Cruzar los dos individuos seleccionados para generar un nuevo descendiente (<em>crossover</em>).</p>
+<p>3.3. Aplicar un proceso de mutación aleatorio sobre el nuevo individuo.</p>
+<p>3.4. Añadir el nuevo individuo a la nueva población.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Reemplazar la antigua población por la nueva.</p>
+</li>
+<li><p class="first">Si no se cumple un criterio de parada, volver al paso 2.</p>
+</li>
+</ol>
+<hr class="docutils" />
+<p>En los siguientes apartados se implementan cada una de las etapas del proceso para, finalmente, combinarlas todas en una única función.</p>
+<div class="section" id="poblacion">
+<h3>Población<a class="headerlink" href="#poblacion" title="Permalink to this headline">¶</a></h3>
+<p>En el contexto de algoritmos genéticos, el término individuo hace referencia a cada una de las posibles soluciones del problema que se quiere resolver. En el caso de maximización o minimización de una función, cada individuo representa una posible combinación de valores de las variables. Para representar dichas combinaciones, se pueden emplear vectores, cuya longitud es igual al número total de variables, y cada posición toma un valor numérico. Por ejemplo, supóngase que la función objetivo <span class="math notranslate nohighlight">\(J(x,y,z)\)</span> depende de las variables <span class="math notranslate nohighlight">\(x, y, z\)</span>. El individuo <span class="math notranslate nohighlight">\(3, 9.5, -0.5\)</span>, equivale a la combinación de valores <span class="math notranslate nohighlight">\(x = 3, y = 9.5, z = -0.5\)</span>.</p>
+</div>
+<div class="section" id="fitness">
+<h3>Fitness<a class="headerlink" href="#fitness" title="Permalink to this headline">¶</a></h3>
+<p>Cada individuo de la población debe ser evaluado para cuantificar cómo de bueno es como solución al problema, a esta cuantificación se le llama  (<em>fitness</em>). Dependiendo de si se trata de un problema de maximización o minimización, la relación del <em>fitness</em> con la función objetivo <span class="math notranslate nohighlight">\(f\)</span> puede ser:</p>
+<ul class="simple">
+<li>Maximización: el individuo tiene mayor <em>fitness</em> cuanto mayor es el valor de la función objetivo <span class="math notranslate nohighlight">\(f(individuo)\)</span>.</li>
+<li>Minimización: el individuo tiene mayor <em>fitness</em> cuanto menor es el valor de la función objetivo <span class="math notranslate nohighlight">\(f(individuo)\)</span>, o lo que es lo mismo, cuanto mayor es el valor de la función objetivo, menor el <em>fitness</em>. Tal y como se describe más adelante, el algoritmo genético selecciona los individuos de mayor <em>fitness</em>, por lo que, para problemas de minimización, el <em>fitness</em> puede calcularse como <span class="math notranslate nohighlight">\(-f(individuo)\)</span> o también <span class="math notranslate nohighlight">\(\frac{1}{1+f(individuo)}\)</span>.</li>
+</ul>
+</div>
+<div class="section" id="seleccionar-individuos">
+<h3>Seleccionar individuos<a class="headerlink" href="#seleccionar-individuos" title="Permalink to this headline">¶</a></h3>
+<p>La forma en que se seleccionan los individuos que participan en cada cruce difiere en las distintas implementaciones de los algoritmos genéticos. Por lo general, todas ellas tienden a favorecer la selección de aquellos individuos con mayor <em>fitness</em>. Algunas de las estrategias más comunes son:</p>
+<ul class="simple">
+<li>Método de ruleta: la probabilidad de que un individuo sea seleccionado es proporcional a su <em>fitness</em> relativo, es decir, a su <em>fitness</em> dividido por la suma del <em>fitness</em> de todos los individuos de la población. Si el <em>fitness</em> de un individuo es el doble que el de otro, también lo será la probabilidad de que sea seleccionado. Este método presenta problemas si el <em>fitness</em> de unos pocos individuos es muy superior (varios órdenes de magnitud) al resto, ya que estos serán seleccionados de forma repetida y casi todos los individuos de la siguiente generación serán “hijos” de los mismos “padres” (poca variación).</li>
+<li>Método <em>rank</em>: la probabilidad de selección de un individuo es inversamente proporcional a la posición que ocupa tras ordenar todos los individuos de mayor a menor <em>fitness</em>. Este método es menos agresivo que el método ruleta cuando la diferencia entre los mayores <em>fitness</em> es varios órdenes de magnitud superior al resto.</li>
+<li>Selección competitiva (<em>tournament</em>): se seleccionan aleatoriamente dos parejas de individuos de la población (todos con la misma probabilidad). De cada pareja se selecciona el que tenga mayor <em>fitness</em>. Finalmente, se comparan los dos finalistas y se selecciona el de mayor <em>fitness</em>. Este método tiende a generar una distribución de la probabilidad de selección más equilibrada que las dos anteriores.</li>
+<li>Selección truncada (<em>truncated selection</em>): se realizan selecciones aleatorias de individuos, habiendo descartado primero los <em>n</em> individuos con menor <em>fitness</em> de la población.</li>
+</ul>
+</div>
+<div class="section" id="cruzar-dos-individuos-crossover-recombinacion">
+<h3>Cruzar dos individuos (<em>crossover</em>, recombinación)<a class="headerlink" href="#cruzar-dos-individuos-crossover-recombinacion" title="Permalink to this headline">¶</a></h3>
+<p>El objetivo de esta etapa es generar, a partir de individuos ya existentes (parentales), nuevos individuos (descendencia) que combinen las características de los anteriores. Este es otro de los puntos del algoritmo en los que se puede seguir varias estrategias. Tres de las más empleadas son:</p>
+<ul class="simple">
+<li>Cruzamiento a partir de uno solo punto: se selecciona aleatoriamente una posición que actúa como punto de corte. Cada individuo parental se divide en dos partes y se intercambian las mitades. Como resultado de este proceso, por cada cruce, se generan dos nuevos individuos.</li>
+<li>Cruzamiento a partir múltiples puntos: se seleccionan aleatoriamente varias posiciones que actúan como puntos de corte. Cada individuo parental se divide por los puntos de corte y se intercambian las partes. Como resultado de este proceso, por cada cruce, se generan dos nuevos individuos.</li>
+<li>Cruzamiento uniforme: el valor que toma cada posición del nuevo individuo se obtiene de uno de los dos parentales. Por lo general, la probabilidad de que el valor proceda de cada parental es la misma, aunque podría, por ejemplo, estar condicionada al <em>fitness</em> de cada uno. A diferencia de las anteriores estrategias, con esta, de cada cruce se genera un único descendiente.</li>
+</ul>
+</div>
+<div class="section" id="mutar-individuo">
+<h3>Mutar individuo<a class="headerlink" href="#mutar-individuo" title="Permalink to this headline">¶</a></h3>
+<p>Tras generar cada nuevo individuo de la descendencia, este se somete a un proceso de mutación en el que, cada una de sus posiciones, puede verse modificada con una probabilidad <em>p</em>. Este paso es importante para añadir diversidad al proceso y evitar que el algoritmo caiga en mínimos locales por que todos los individuos sean demasiado parecidos de una generación a otra.</p>
+<p>Existen diferentes estrategias para controlar la magnitud del cambio que puede provocar una mutación.</p>
+<ul class="simple">
+<li>Distribución uniforme: la mutación de la posición <em>i</em> se consigue sumándole al valor de <em>i</em> un valor extraído de una distribución uniforme, por ejemplo una entre [-1,+1].</li>
+<li>Distribución normal: la mutación de la posición <em>i</em> se consigue sumándole al valor de <em>i</em> un valor extraído de una distribución normal, comúnmente centrada en 0 y con una determinada desviación estándar. Cuanto mayor la desviación estándar, con mayor probabilidad la mutación introducirá cambios grandes.</li>
+<li>Aleatorio: la mutación de la posición <em>i</em> se consigue reemplazando el valor de <em>i</em> por nuevo valor aleatorio dentro del rango permitido para esa variable. Esta estrategia suele conllevar mayores variaciones que las dos anteriores.</li>
+</ul>
+<p>Hay que tener en cuenta que, debido a las mutaciones, un valor que inicialmente estaba dentro del rango permitido puede salirse de él. Una forma de evitarlo es: si el valor tras la mutación excede alguno de los límites acotados, se sobrescribe con el valor del límite. Es decir, se permite que los valores se alejen como máximo hasta el límite impuesto.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ga.codigo.html" class="btn btn-neutral float-right" title="Codigo Python" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="ALGORITMO GENÉTICO PARA OPTIMIZACIÓN" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Joaquín Amat Rodrigo
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

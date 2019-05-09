@@ -1,0 +1,1304 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ga.class_poblacion &mdash; Optimización GA 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Optimización GA
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tabla de contenidos:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ga.introduccion.html">Introducción</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ga.codigo.html">Código Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../ga.ejemplos.html">Ejemplos</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Optimización GA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ga.class_poblacion</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ga.class_poblacion</h1><div class="highlight"><pre>
+<span></span><span class="c1">################################################################################</span>
+<span class="c1">#               CÓDIGO OPTIMIZACIÓN CON ALGORITMO GENÉTICO                     #</span>
+<span class="c1">#                                                                              #</span>
+<span class="c1"># This work by Joaquín Amat Rodrigo is licensed under a Creative Commons       #</span>
+<span class="c1"># Attribution 4.0 International License.                                       #</span>
+<span class="c1">################################################################################</span>
+<span class="c1"># coding=utf-8</span>
+
+<span class="c1">################################################################################</span>
+<span class="c1">#                               CLASE POBLACIÓN                                #</span>
+<span class="c1">################################################################################</span>
+
+<div class="viewcode-block" id="Poblacion"><a class="viewcode-back" href="../../ga.codigo.html#ga.class_poblacion.Poblacion">[docs]</a><span class="k">class</span> <span class="nc">Poblacion</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Esta clase crea una población de n individuos.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_individuos :`int`</span>
+<span class="sd">        número de individuos de la población.</span>
+
+<span class="sd">    n_variables : `int`</span>
+<span class="sd">        número de variables que definen a cada individuo.</span>
+
+<span class="sd">    limites_inf : `list` or `numpy.ndarray`</span>
+<span class="sd">        límite inferior de cada variable. Si solo se quiere predefinir límites</span>
+<span class="sd">        de alguna variable, emplear ``None``. Los ``None`` serán remplazados por</span>
+<span class="sd">        el valor (-10**3).</span>
+
+<span class="sd">    limites_sup : `list` or `numpy.ndarray`</span>
+<span class="sd">        límite superior de cada variable. Si solo se quiere predefinir límites</span>
+<span class="sd">        de alguna variable, emplear ``None``. Los``None`` serán remplazados por</span>
+<span class="sd">        el valor (+10**3).</span>
+
+<span class="sd">    verbose : `bool`, optional</span>
+<span class="sd">        mostrar información del proceso por pantalla. (default ``False``)</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    individuos : `list`</span>
+<span class="sd">        lista con todos los individuos de la población en su estado actual.</span>
+<span class="sd">    </span>
+<span class="sd">    n_individuos :`int`</span>
+<span class="sd">        número de individuos de la población.</span>
+
+<span class="sd">    n_variables : `int`</span>
+<span class="sd">        número de variables que definen a cada individuo.</span>
+
+<span class="sd">    limites_inf : `list` or `numpy.ndarray`</span>
+<span class="sd">        límite inferior de cada variable.</span>
+
+<span class="sd">    limites_sup : `list` or `numpy.ndarray`</span>
+<span class="sd">        límite superior de cada variable.</span>
+
+<span class="sd">    mejor_individuo : `object individuo`</span>
+<span class="sd">        mejor individuo de la población en su estado actual.</span>
+
+<span class="sd">    mejor_fitness : `float`</span>
+<span class="sd">        fitness del mejor individuo de la población en su estado actual.</span>
+
+<span class="sd">    mejor_valor_funcion : `float`</span>
+<span class="sd">        valor de la función objetivo del mejor individuo de la población en su</span>
+<span class="sd">        estado actual.</span>
+
+<span class="sd">    mejor_individuo_variables : `numpy.ndarray`</span>
+<span class="sd">        valor de las variables del mejor individuo de la población en su estado</span>
+<span class="sd">        actual.</span>
+
+<span class="sd">    historico_individuos : `list`</span>
+<span class="sd">        lista con la información de todos los individuos en cada una de las </span>
+<span class="sd">        generaciones que ha tenido la población.</span>
+
+<span class="sd">    historico_mejor_individuo_variables : `list`</span>
+<span class="sd">        lista con valor de las variables del mejor individuo en cada una de las </span>
+<span class="sd">        generaciones que ha tenido la población.</span>
+
+<span class="sd">    historico_mejor_fitness : `list`</span>
+<span class="sd">        lista con el mejor fitness en cada una de las generaciones que ha tenido</span>
+<span class="sd">        la población.</span>
+
+<span class="sd">    historico_mejor_valor_funcion : `list`</span>
+<span class="sd">        lista con valor de la función objetivo del mejor individuo en cada una</span>
+<span class="sd">        de las generaciones que ha tenido la población.</span>
+
+<span class="sd">    diferencia_abs : `list`</span>
+<span class="sd">        diferencia absoluta entre el mejor fitness de generaciones consecutivas.</span>
+
+<span class="sd">    resultados_df : `pandas.core.frame.DataFrame`</span>
+<span class="sd">        dataframe con la información del mejor fitness y valor de las variables</span>
+<span class="sd">        encontrado en cada generación, así como la diferencia respecto a la </span>
+<span class="sd">        generación anterior.</span>
+
+<span class="sd">    fitness_optimo : `float`</span>
+<span class="sd">        mejor fitness encontrado tras el proceso de optimización.</span>
+
+<span class="sd">    valor_funcion_optimo : `float`</span>
+<span class="sd">        valor de la función objetivo encontrado tras el proceso de optimización.</span>
+
+<span class="sd">    valor_variables_optimo : `numpy.narray`</span>
+<span class="sd">        valor de las variables con el que se ha conseguido el mejor fitness tras</span>
+<span class="sd">        el proceso de optimización.</span>
+
+<span class="sd">    optimizado : `bool`</span>
+<span class="sd">        si la población ha sido optimizada.</span>
+
+<span class="sd">    iter_optimizacion : `int`</span>
+<span class="sd">        número de iteraciones de optimización (generaciones).</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Ejemplo crear población</span>
+
+<span class="sd">    &gt;&gt;&gt; poblacion = Poblacion(</span>
+<span class="sd">                        n_individuos = 3,</span>
+<span class="sd">                        n_variables  = 3,</span>
+<span class="sd">                        limites_inf  = [-5,-5,-5],</span>
+<span class="sd">                        limites_sup  = [5,5,5],</span>
+<span class="sd">                        verbose = True</span>
+<span class="sd">                        )</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_individuos</span><span class="p">,</span> <span class="n">n_variables</span><span class="p">,</span> <span class="n">limites_inf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">limites_sup</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+        <span class="c1"># Número de individuos de la población</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span> <span class="o">=</span> <span class="n">n_individuos</span>
+        <span class="c1"># Número de variables de cada individuo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span> <span class="o">=</span> <span class="n">n_variables</span>
+        <span class="c1"># Límite inferior de cada variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limites_inf</span> <span class="o">=</span> <span class="n">limites_inf</span>
+        <span class="c1"># Límite superior de cada variable</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">limites_sup</span> <span class="o">=</span> <span class="n">limites_sup</span>
+        <span class="c1"># Lista de los individuos de la población</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">individuos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Etiqueta para saber si la población ha sido optimizada</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizado</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># Número de iteraciones de optimización llevadas a cabo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iter_optimizacion</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Mejor individuo de la población</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_individuo</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Fitness del mejor individuo de la población (el de mayor fitness)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_fitness</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Valor de la función objetivo del mejor individuo de la población</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_funcion</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Valor de las variables del mejor individuo de la población</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_variables</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Información de todas los individuos de la población en cada generación</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">historico_individuos</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Valor de las variables del mejor individuo en cada generación</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_valor_variables</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Fitness del mejor individuo en cada generación</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_fitness</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Valor de la función objetivo del mejor individuo en cada generación</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_valor_funcion</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Diferencia absoluta entre el mejor fitness de generaciones consecutivas</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">diferencia_abs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># data.frame con la información del mejor fitness y valor de variables</span>
+        <span class="c1"># encontrado en cada generación, así como la diferencia respecto a la </span>
+        <span class="c1"># generación anterior.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resultados_df</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Fitness del mejor individuo de todas las generaciones</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitness_optimo</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Valor de las variables del mejor individuo de todas las generaciones</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valor_variables_optimo</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Valor de función objetivo del mejor individuo de todas las generaciones</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valor_funcion_optimo</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># CONVERSIONES DE TIPO INICIALES</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="c1"># Si limites_inf o limites_sup no son un array numpy, se convierten en</span>
+        <span class="c1"># ello.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limites_inf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+        <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limites_inf</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">limites_inf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limites_inf</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limites_sup</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> \
+        <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limites_sup</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">limites_sup</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limites_sup</span><span class="p">)</span>
+
+        <span class="c1"># SE CREAN LOS INDIVIDUOS DE LA POBLACIÓN Y SE ALMACENAN</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_individuos</span><span class="p">):</span>
+            <span class="n">individuo_i</span> <span class="o">=</span> <span class="n">Individuo</span><span class="p">(</span>
+                            <span class="n">n_variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_variables</span><span class="p">,</span>
+                            <span class="n">limites_inf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limites_inf</span><span class="p">,</span>
+                            <span class="n">limites_sup</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limites_sup</span><span class="p">,</span>
+                            <span class="n">verbose</span>     <span class="o">=</span> <span class="n">verbose</span>
+                          <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">individuo_i</span><span class="p">)</span>
+
+        <span class="c1"># INFORMACIÓN DEL PROCESO (VERBOSE)</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Población creada&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;----------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Número de individuos: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Límites inferiores de cada variable: &quot;</span> \
+                  <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limites_inf</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Límites superiores de cada variable: &quot;</span> \
+                  <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limites_sup</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Información que se muestra cuando se imprime un objeto población.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">texto</span> <span class="o">=</span> <span class="s2">&quot;============================&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;         Población&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;============================&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Número de individuos: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Límites inferiores de cada variable: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limites_inf</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Límites superiores de cada variable: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limites_sup</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Optimizado: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">optimizado</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Iteraciones optimización (generaciones): &quot;</span> \
+                     <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_optimizacion</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Información del mejor individuo:&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;----------------------------&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Valor variables: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_variables</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Fitness: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mejor_fitness</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Resultados tras optimizar:&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;--------------------------&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Valor óptimo de variables: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valor_variables_optimo</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Valor óptimo función objetivo: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valor_funcion_optimo</span><span class="p">)</span> \
+                <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot;Fitness óptimo: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fitness_optimo</span><span class="p">)</span>
+                
+                
+        <span class="k">return</span><span class="p">(</span><span class="n">texto</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Poblacion.mostrar_individuos"><a class="viewcode-back" href="../../ga.codigo.html#ga.class_poblacion.Poblacion.mostrar_individuos">[docs]</a>    <span class="k">def</span> <span class="nf">mostrar_individuos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Este método muestra la información de cada uno de los n primeros </span>
+<span class="sd">        individuos de la población.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        n : `int`</span>
+<span class="sd">            número de individuos que se muestran. Si no se indica el valor</span>
+<span class="sd">            (por defecto ``None``), se muestran todas. Si el valor es mayor</span>
+<span class="sd">            que `self.n_individuos` se muestran todas.</span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; poblacion = Poblacion(</span>
+<span class="sd">               n_individuos = 5,</span>
+<span class="sd">               n_variables  = 3,</span>
+<span class="sd">               limites_inf  = [-5,-5,-5],</span>
+<span class="sd">               limites_sup  = [5,5,5],</span>
+<span class="sd">               verbose      = True</span>
+<span class="sd">            )</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion.mostrar_individuos(n = 1)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span>
+        <span class="k">elif</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">:</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="k">return</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Poblacion.evaluar_poblacion"><a class="viewcode-back" href="../../ga.codigo.html#ga.class_poblacion.Poblacion.evaluar_poblacion">[docs]</a>    <span class="k">def</span> <span class="nf">evaluar_poblacion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">funcion_objetivo</span><span class="p">,</span> <span class="n">optimizacion</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Este método calcula el fitness de todos los individuos de la población,</span>
+<span class="sd">        actualiza sus valores e identifica el mejor.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        funcion_objetivo : `function`</span>
+<span class="sd">            función que se quiere optimizar.</span>
+
+<span class="sd">        optimizacion : {&quot;maximizar&quot; o &quot;minimizar&quot;}</span>
+<span class="sd">            si se desea maximizar o minimizar la función.</span>
+
+<span class="sd">        verbose : `bool`, optional</span>
+<span class="sd">            mostrar información del proceso por pantalla. (default ``False``)</span>
+<span class="sd">        </span>
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Ejemplo evaluar población</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion = Poblacion(</span>
+<span class="sd">               n_individuos = 5,</span>
+<span class="sd">               n_variables  = 3,</span>
+<span class="sd">               limites_inf  = [-5,-5,-5],</span>
+<span class="sd">               limites_sup  = [5,5,5],</span>
+<span class="sd">               verbose      = True</span>
+<span class="sd">            )</span>
+
+<span class="sd">        &gt;&gt;&gt; def funcion_objetivo(x_0, x_1, x_2):</span>
+<span class="sd">                f= x_0**2 + x_1**2 + x_2**2</span>
+<span class="sd">                return(f)</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion.evaluar_poblacion(</span>
+<span class="sd">                funcion_objetivo = funcion_objetivo,</span>
+<span class="sd">                optimizacion     = &quot;minimizar&quot;,</span>
+<span class="sd">                verbose          = True</span>
+<span class="sd">                )</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># SE EVALÚA CADA INDIVIDUO DE LA POBLACIÓN</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">calcular_fitness</span><span class="p">(</span>
+                <span class="n">funcion_objetivo</span> <span class="o">=</span> <span class="n">funcion_objetivo</span><span class="p">,</span>
+                <span class="n">optimizacion</span>     <span class="o">=</span> <span class="n">optimizacion</span><span class="p">,</span>
+                <span class="n">verbose</span>          <span class="o">=</span> <span class="n">verbose</span>
+            <span class="p">)</span>
+
+        <span class="c1"># MEJOR INDIVIDUO DE LA POBLACIÓN</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="c1"># Se identifica el mejor individuo de toda el población, el de mayor</span>
+        <span class="c1"># fitness.</span>
+
+        <span class="c1"># Se selecciona inicialmente como mejor individuo el primero.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_individuo</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># Se comparan todas los individuos de la población.</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fitness</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">mejor_individuo</span><span class="o">.</span><span class="n">fitness</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mejor_individuo</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="c1"># Se extrae la información del mejor individuo de la población.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_fitness</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mejor_individuo</span><span class="o">.</span><span class="n">fitness</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_variables</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mejor_individuo</span><span class="o">.</span><span class="n">valor_variables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_funcion</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mejor_individuo</span><span class="o">.</span><span class="n">valor_funcion</span>
+        
+        <span class="c1"># INFORMACIÓN DEL PROCESO (VERBOSE)</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Población evaluada&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;------------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mejor fitness encontrado : &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mejor_fitness</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valor de la función objetivo: &quot;</span> \
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_funcion</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mejor valor de variables encontrado : &quot;</span>
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_variables</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Poblacion.cruzar_individuos"><a class="viewcode-back" href="../../ga.codigo.html#ga.class_poblacion.Poblacion.cruzar_individuos">[docs]</a>    <span class="k">def</span> <span class="nf">cruzar_individuos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parental_1</span><span class="p">,</span> <span class="n">parental_2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Este método genera un nuevo individuo a partir de dos individuos</span>
+<span class="sd">        parentales empleando el método de cruzamiento uniforme.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        parental_1 : `int`</span>
+<span class="sd">            índice del individuo de la población que se quiere emplear como</span>
+<span class="sd">            parental 1 para el cruzamiento.</span>
+
+<span class="sd">        parental_1 : `int`</span>
+<span class="sd">            índice del individuo de la población que se quiere emplear como</span>
+<span class="sd">            parental 1 para el cruzamiento.</span>
+<span class="sd">        </span>
+<span class="sd">        verbose : `bool`, optional</span>
+<span class="sd">            mostrar información del proceso por pantalla. (default ``False``)</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        raise Exception</span>
+<span class="sd">            si los índices parental_1 o parental_2 no son índices válidos.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ------</span>
+<span class="sd">        descendencia : `Individuo`</span>
+<span class="sd">            Nuevo individuo generado por cruzamiento de dos parentales.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; poblacion = Poblacion(</span>
+<span class="sd">               n_individuos = 5,</span>
+<span class="sd">               n_variables  = 3,</span>
+<span class="sd">               limites_inf  = [-5,-5,-5],</span>
+<span class="sd">               limites_sup  = [5,5,5]</span>
+<span class="sd">            )</span>
+
+<span class="sd">        &gt;&gt;&gt; descendencia = poblacion.cruzar_individuos(</span>
+<span class="sd">                            parental_1 = 0,</span>
+<span class="sd">                            parental_2 = 1,</span>
+<span class="sd">                            verbose    = True</span>
+<span class="sd">                           )</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        El objetivo del cruzamiento es generar, a partir de individuos ya</span>
+<span class="sd">        existentes (parentales), nuevos individuos (descendencia) que combinen</span>
+<span class="sd">        las características de los anteriores. Este es otro de los puntos del</span>
+<span class="sd">        algoritmo en los que se puede seguir varias estrategias. Tres de las más</span>
+<span class="sd">        empleadas son:</span>
+
+<span class="sd">        Cruzamiento a partir de uno solo punto: se selecciona aleatoriamente</span>
+<span class="sd">        una posición que actúa como punto de corte. Cada individuo parental se</span>
+<span class="sd">        divide en dos partes y se intercambian las mitades. Como resultado de</span>
+<span class="sd">        este proceso, por cada cruce, se generan dos nuevos individuos.</span>
+
+<span class="sd">        Cruzamiento a partir múltiples puntos: se seleccionan aleatoriamente</span>
+<span class="sd">        varias posiciones que actúan como puntos de corte. Cada individuo</span>
+<span class="sd">        parental se divide por los puntos de corte y se intercambian las partes.</span>
+<span class="sd">        Como resultado de este proceso, por cada cruce, se generan dos nuevos</span>
+<span class="sd">        individuos.</span>
+
+<span class="sd">        Cruzamiento uniforme: el valor que toma cada posición del nuevo</span>
+<span class="sd">        individuo se obtiene de uno de los dos parentales. Por lo general,</span>
+<span class="sd">        la probabilidad de que el valor proceda de cada parental es la misma,</span>
+<span class="sd">        aunque podría, por ejemplo, estar condicionada al fitness de cada uno.</span>
+<span class="sd">        A diferencia de las anteriores estrategias, con esta, de cada cruce se</span>
+<span class="sd">        genera un único descendiente.     </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># COMPROBACIONES INICIALES: EXCEPTIONS Y WARNINGS</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">if</span> <span class="n">parental_1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;El el índice del parental_1 debe de ser un valor entre 0 y &quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;el número de individuos de la población.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">parental_2</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;El el índice del parental_2 debe de ser un valor entre 0 y &quot;</span> <span class="o">+</span>
+                <span class="s2">&quot;el número de individuos de la población.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># CREACIÓN DE LA DESCENDENCIA</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="c1"># Se extraen los parentales acorde a los índices indicados.</span>
+        <span class="n">parental_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">parental_1</span><span class="p">]</span>
+        <span class="n">parental_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">parental_2</span><span class="p">]</span>
+        
+        <span class="c1"># Se clona uno de los parentales para utilizarlo como plantilla del nuevo</span>
+        <span class="c1"># individuo.</span>
+        <span class="n">descendencia</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">parental_1</span><span class="p">)</span>
+        <span class="n">descendencia</span><span class="o">.</span><span class="n">valor_variables</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">descendencia</span><span class="o">.</span><span class="n">n_variables</span><span class="p">)</span>
+        <span class="n">descendencia</span><span class="o">.</span><span class="n">fitness</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Se seleccionan aleatoriamente las posiciones que se heredan del</span>
+        <span class="c1"># parental_1 y del parental 2.</span>
+        <span class="n">herencia_parent_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                                <span class="n">a</span>       <span class="o">=</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">],</span>
+                                <span class="n">size</span>    <span class="o">=</span> <span class="n">descendencia</span><span class="o">.</span><span class="n">n_variables</span><span class="p">,</span>
+                                <span class="n">p</span>       <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
+                                <span class="n">replace</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="p">)</span>
+        <span class="n">herencia_parent_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_not</span><span class="p">(</span><span class="n">herencia_parent_1</span><span class="p">)</span>
+
+        <span class="c1"># Se transfieren los valores al nuevo individuo.</span>
+        <span class="n">descendencia</span><span class="o">.</span><span class="n">valor_variables</span><span class="p">[</span><span class="n">herencia_parent_1</span><span class="p">]</span> \
+            <span class="o">=</span> <span class="n">parental_1</span><span class="o">.</span><span class="n">valor_variables</span><span class="p">[</span><span class="n">herencia_parent_1</span><span class="p">]</span>
+
+        <span class="n">descendencia</span><span class="o">.</span><span class="n">valor_variables</span><span class="p">[</span><span class="n">herencia_parent_2</span><span class="p">]</span> \
+            <span class="o">=</span> <span class="n">parental_2</span><span class="o">.</span><span class="n">valor_variables</span><span class="p">[</span><span class="n">herencia_parent_2</span><span class="p">]</span>
+        
+        <span class="c1"># Se crea un deepcopy para que el nuevo individuo sea independiente de </span>
+        <span class="c1"># los parentales. Esto evita problemas si posteriormente se muta.</span>
+        <span class="n">descendencia</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">descendencia</span><span class="p">)</span>
+
+        <span class="c1"># INFORMACIÓN DEL PROCESO (VERBOSE)</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Cruce realizado: descendencia creada&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valor variables: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">descendencia</span><span class="o">.</span><span class="n">valor_variables</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">descendencia</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="Poblacion.seleccionar_individuo"><a class="viewcode-back" href="../../ga.codigo.html#ga.class_poblacion.Poblacion.seleccionar_individuo">[docs]</a>    <span class="k">def</span> <span class="nf">seleccionar_individuo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">return_indices</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                              <span class="n">metodo_seleccion</span><span class="o">=</span><span class="s2">&quot;tournament&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Este método selecciona los índices de n individuos de una población,</span>
+<span class="sd">        donde la probabilidad de selección está relacionada con el fitness de  </span>
+<span class="sd">        cada individuo. Si el argumento `return_indices=False` en lugar de los</span>
+<span class="sd">        índices se devuelve una copia de los individuos seleccionados.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        n : `int`</span>
+<span class="sd">            número de individuos de la población seleccionados.</span>
+
+<span class="sd">        return_indices : `bool`, optional</span>
+<span class="sd">            cuando es True, se devuelve el indice que ocupan los individuos</span>
+<span class="sd">            seleccionados, cuando es False se devuelve una lista que contiene una</span>
+<span class="sd">            copia de los individuos. (default ``True``)</span>
+
+<span class="sd">        metodo_seleccion : {&quot;ruleta&quot;, &quot;rank&quot;, &quot;tournament&quot;}</span>
+<span class="sd">            método de selección de selección, ver notas para más información.</span>
+<span class="sd">            (default `tournament`)</span>
+
+<span class="sd">        verbose : `bool`, optional</span>
+<span class="sd">            mostrar información del proceso por pantalla. (default ``False``)</span>
+<span class="sd">        </span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        raise Exception</span>
+<span class="sd">            si el argumento `metodo_seleccion` no es &#39;ruleta&#39;, &#39;rank&#39; o</span>
+<span class="sd">            &#39;tournament&#39;.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        indices : `numpy.ndarray`</span>
+<span class="sd">            índice de los individuos seleccionados (si `return_indices=True`).</span>
+
+<span class="sd">        individuos : `list`</span>
+<span class="sd">            lista con los individuos seleccionados (si `return_indices=False`).</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; poblacion = Poblacion(</span>
+<span class="sd">               n_individuos = 5,</span>
+<span class="sd">               n_variables  = 3,</span>
+<span class="sd">               limites_inf  = [-5,-5,-5],</span>
+<span class="sd">               limites_sup  = [5,5,5],</span>
+<span class="sd">               verbose      = True</span>
+<span class="sd">            )</span>
+
+<span class="sd">        &gt;&gt;&gt; def funcion_objetivo(x_0, x_1, x_2):</span>
+<span class="sd">                f= x_0**2 + x_1**2 + x_2**2</span>
+<span class="sd">                return(f)</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion.evaluar_poblacion(</span>
+<span class="sd">                funcion_objetivo = funcion_objetivo,</span>
+<span class="sd">                optimizacion     = &quot;minimizar&quot;,</span>
+<span class="sd">                verbose          = True</span>
+<span class="sd">                )</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion.seleccionar_individuo(</span>
+<span class="sd">                n                = 2,</span>
+<span class="sd">                return_indices   = True,</span>
+<span class="sd">                metodo_seleccion = &quot;tournament&quot;,</span>
+<span class="sd">                verbose          = True</span>
+<span class="sd">            )</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        La forma en que se seleccionan los individuos que participan en cada cruce</span>
+<span class="sd">        difiere en las distintas implementaciones de los algoritmos genéticos.</span>
+<span class="sd">        Por lo general, todas ellas tienden a favorecer la selección de aquellos</span>
+<span class="sd">        individuos con mayor fitness. Algunas de las estrategias más comunes son:</span>
+
+<span class="sd">        Método de ruleta: la probabilidad de que un individuo sea seleccionado</span>
+<span class="sd">        es proporcional a su fitness relativo, es decir, a su fitness dividido</span>
+<span class="sd">        por la suma del fitness de todos los individuos de la población. Si el</span>
+<span class="sd">        fitness de un individuo es el doble que el de otro, también lo será la</span>
+<span class="sd">        probabilidad de que sea seleccionado. Este método presenta problemas si</span>
+<span class="sd">        el fitness de unos pocos individuos es muy superior (varios órdenes de</span>
+<span class="sd">        magnitud) al resto, ya que estos serán seleccionados de forma repetida y</span>
+<span class="sd">        casi todos los individuos de la siguiente generación serán “hijos” de</span>
+<span class="sd">        los mismos “padres” (poca variación).</span>
+
+<span class="sd">        Método rank: la probabilidad de selección de un individuo es inversamente</span>
+<span class="sd">        proporcional a la posición que ocupa tras ordenar todos los individuos</span>
+<span class="sd">        de mayor a menor fitness. Este método es menos agresivo que el método</span>
+<span class="sd">        ruleta cuando la diferencia entre los mayores fitness es varios órdenes</span>
+<span class="sd">        de magnitud superior al resto.</span>
+
+<span class="sd">        Selección competitiva (tournament): se seleccionan aleatoriamente dos</span>
+<span class="sd">        parejas de individuos de la población (todos con la misma probabilidad).</span>
+<span class="sd">        De cada pareja se selecciona el que tenga mayor fitness. Finalmente,</span>
+<span class="sd">        se comparan los dos finalistas y se selecciona el de mayor fitness. Este</span>
+<span class="sd">        método tiende a generar una distribución de la probabilidad de selección</span>
+<span class="sd">        más equilibrada que las dos anteriores.</span>
+
+<span class="sd">        Selección truncada (truncated selection): se realizan selecciones</span>
+<span class="sd">        aleatorias de individuos, habiendo descartado primero los n individuos</span>
+<span class="sd">        con menor fitness de la población.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># COMPROBACIONES INICIALES: EXCEPTIONS Y WARNINGS</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">if</span> <span class="n">metodo_seleccion</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;ruleta&quot;</span><span class="p">,</span> <span class="s2">&quot;rank&quot;</span><span class="p">,</span> <span class="s2">&quot;tournament&quot;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;El método de selección debe de ser ruleta, rank o tournament&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># SELECCIÓN DE INDIVIDUOS</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="c1"># Se crea un array con el fitness de cada individuo de la población.</span>
+        <span class="n">array_fitness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">):</span>
+            <span class="n">array_fitness</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fitness</span><span class="p">)</span>
+        
+        <span class="c1"># Se calcula la probabilidad de selección de cada individuo en función</span>
+        <span class="c1"># de su fitness.</span>
+        <span class="k">if</span> <span class="n">metodo_seleccion</span> <span class="o">==</span> <span class="s2">&quot;ruleta&quot;</span><span class="p">:</span>
+            <span class="n">probabilidad_seleccion</span> <span class="o">=</span> <span class="n">array_fitness</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">array_fitness</span><span class="p">)</span>
+            <span class="n">ind_seleccionado</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                                    <span class="n">a</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">),</span>
+                                    <span class="n">size</span>    <span class="o">=</span> <span class="n">n</span><span class="p">,</span>
+                                    <span class="n">p</span>       <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">probabilidad_seleccion</span><span class="p">),</span>
+                                    <span class="n">replace</span> <span class="o">=</span> <span class="kc">True</span>
+                               <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">metodo_seleccion</span> <span class="o">==</span> <span class="s2">&quot;rank&quot;</span><span class="p">:</span>
+            <span class="c1"># La probabilidad con este método es inversamente proporcional a la</span>
+            <span class="c1"># posición en la que quedan ordenados los individuos de menor a mayor</span>
+            <span class="c1"># fitness.</span>
+            <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">array_fitness</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">ranks</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">order</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">probabilidad_seleccion</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">ranks</span>
+            <span class="n">probabilidad_seleccion</span> <span class="o">=</span> <span class="n">probabilidad_seleccion</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">probabilidad_seleccion</span><span class="p">)</span>
+            <span class="n">ind_seleccionado</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                                <span class="n">a</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">),</span>
+                                <span class="n">size</span>    <span class="o">=</span> <span class="n">n</span><span class="p">,</span>
+                                <span class="n">p</span>       <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">probabilidad_seleccion</span><span class="p">),</span>
+                                <span class="n">replace</span> <span class="o">=</span> <span class="kc">True</span>
+                            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">metodo_seleccion</span> <span class="o">==</span> <span class="s2">&quot;tournament&quot;</span><span class="p">:</span>
+            <span class="n">ind_seleccionado</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+                <span class="c1"># Se seleccionan aleatoriamente dos parejas de individuos.</span>
+                <span class="n">candidatos_a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                                <span class="n">a</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">),</span>
+                                <span class="n">size</span>    <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                                <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="p">)</span>
+                <span class="n">candidatos_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+                                <span class="n">a</span>       <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">),</span>
+                                <span class="n">size</span>    <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                                <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span>
+                            <span class="p">)</span>
+                <span class="c1"># De cada pareja se selecciona el de mayor fitness.</span>
+                <span class="k">if</span> <span class="n">array_fitness</span><span class="p">[</span><span class="n">candidatos_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="n">array_fitness</span><span class="p">[</span><span class="n">candidatos_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]]:</span>
+                    <span class="n">ganador_a</span> <span class="o">=</span> <span class="n">candidatos_a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ganador_a</span> <span class="o">=</span> <span class="n">candidatos_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="k">if</span> <span class="n">array_fitness</span><span class="p">[</span><span class="n">candidatos_b</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">&gt;</span> <span class="n">array_fitness</span><span class="p">[</span><span class="n">candidatos_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]]:</span>
+                    <span class="n">ganador_b</span> <span class="o">=</span> <span class="n">candidatos_b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ganador_b</span> <span class="o">=</span> <span class="n">candidatos_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+                <span class="c1"># Se comparan los dos ganadores de cada pareja.</span>
+                <span class="k">if</span> <span class="n">array_fitness</span><span class="p">[</span><span class="n">ganador_a</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">array_fitness</span><span class="p">[</span><span class="n">ganador_b</span><span class="p">]:</span>
+                    <span class="n">ind_final</span> <span class="o">=</span> <span class="n">ganador_a</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ind_final</span> <span class="o">=</span> <span class="n">ganador_b</span>
+                
+                <span class="n">ind_seleccionado</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ind_final</span>
+
+        <span class="c1"># INFORMACIÓN DEL PROCESO (VERBOSE)</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Individuo seleccionado&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;---------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Método selección: &quot;</span> <span class="o">+</span> <span class="n">metodo_seleccion</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">return_indices</span><span class="p">):</span>
+            <span class="k">return</span><span class="p">(</span><span class="n">ind_seleccionado</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">ind_seleccionado</span><span class="p">)]))</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ind_seleccionado</span><span class="p">]</span>
+                <span class="p">)</span></div>
+            
+<div class="viewcode-block" id="Poblacion.crear_nueva_generecion"><a class="viewcode-back" href="../../ga.codigo.html#ga.class_poblacion.Poblacion.crear_nueva_generecion">[docs]</a>    <span class="k">def</span> <span class="nf">crear_nueva_generecion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metodo_seleccion</span><span class="o">=</span><span class="s2">&quot;tournament&quot;</span><span class="p">,</span>
+                               <span class="n">elitismo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">prob_mut</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                               <span class="n">distribucion</span><span class="o">=</span><span class="s2">&quot;uniforme&quot;</span><span class="p">,</span>
+                               <span class="n">media_distribucion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sd_distribucion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                               <span class="n">min_distribucion</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_distribucion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                               <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose_seleccion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                               <span class="n">verbose_cruce</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose_mutacion</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Este método somete la población a una nueva generación.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        metodo_seleccion : {&quot;ruleta&quot;, &quot;rank&quot;, &quot;tournament&quot;}</span>
+<span class="sd">            método de selección de selección, ver notas para más información.</span>
+<span class="sd">            (default `tournament`)</span>
+
+<span class="sd">        elitismo : `float`, optional</span>
+<span class="sd">            porcentaje de mejores individuos de la población actual que pasan</span>
+<span class="sd">            directamente a la siguiente población. De esta forma, se asegura</span>
+<span class="sd">            que, la siguiente generación, no sea nunca peor. (default `0.1`)</span>
+
+<span class="sd">        prob_mut : `float`, optional</span>
+<span class="sd">            probabilidad que tiene cada posición del individuo de mutar.</span>
+<span class="sd">            (default 0.01)</span>
+
+<span class="sd">        distribucion : {&quot;normal&quot;, &quot;uniforme&quot;, &quot;aleatoria&quot;}, optional</span>
+<span class="sd">            distribución de la que obtener el factor de mutación.</span>
+<span class="sd">            (default &quot;uniforme&quot;)</span>
+
+<span class="sd">        media_distribucion : `float`, optional</span>
+<span class="sd">            media de la distribución si se selecciona `distribucion = &quot;normal&quot;`</span>
+<span class="sd">            (default 1)</span>
+
+<span class="sd">        sd_distribucion : `float`, optional</span>
+<span class="sd">            desviación estándar de la distribución si se selecciona</span>
+<span class="sd">            `distribucion = &quot;normal&quot;`. (default 1)</span>
+
+<span class="sd">        min_distribucion : `float`, optional</span>
+<span class="sd">            mínimo de la distribución si se selecciona </span>
+<span class="sd">            `distribucion = &quot;uniforme&quot;`. (default -1)</span>
+
+<span class="sd">        max_distribucion : `float`, optional</span>
+<span class="sd">            máximo de la distribución si se selecciona </span>
+<span class="sd">            `distribucion = &quot;uniforme&quot;`. (default +1)</span>
+
+<span class="sd">        verbose : `bool`, optional</span>
+<span class="sd">            mostrar información del proceso por pantalla. (default ``False``)</span>
+<span class="sd">        </span>
+<span class="sd">        verbose_seleccion : `bool`, optional</span>
+<span class="sd">            mostrar información de cada selección por pantalla.</span>
+<span class="sd">            (default ``False``)</span>
+
+<span class="sd">        verbose_cruce : `bool`, optional</span>
+<span class="sd">            mostrar información de cada cruce por pantalla.</span>
+<span class="sd">            (default ``False``)</span>
+
+<span class="sd">        verbose_mutacion : `bool`, optional</span>
+<span class="sd">            mostrar información de cada mutación por pantalla.</span>
+<span class="sd">            (default ``False``)</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion = Poblacion(</span>
+<span class="sd">               n_individuos = 5,</span>
+<span class="sd">               n_variables  = 3,</span>
+<span class="sd">               limites_inf  = [-5,-5,-5],</span>
+<span class="sd">               limites_sup  = [5,5,5],</span>
+<span class="sd">               verbose      = True</span>
+<span class="sd">            )</span>
+
+<span class="sd">        &gt;&gt;&gt; def funcion_objetivo(x_0, x_1, x_2):</span>
+<span class="sd">                f= x_0**2 + x_1**2 + x_2**2</span>
+<span class="sd">                return(f)</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion.evaluar_poblacion(</span>
+<span class="sd">                funcion_objetivo = funcion_objetivo,</span>
+<span class="sd">                optimizacion     = &quot;minimizar&quot;,</span>
+<span class="sd">                verbose          = True</span>
+<span class="sd">                )</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion.crear_nueva_generecion(</span>
+<span class="sd">                metodo_seleccion   = &quot;tournament&quot;,</span>
+<span class="sd">                elitismo           = 0.1,</span>
+<span class="sd">                prob_mut           = 0.01,</span>
+<span class="sd">                distribucion       = &quot;uniforme&quot;,</span>
+<span class="sd">                verbose            = True,</span>
+<span class="sd">                verbose_seleccion  = False,</span>
+<span class="sd">                verbose_cruce      = False,</span>
+<span class="sd">                verbose_mutacion   = False</span>
+<span class="sd">                )</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Lista donde almacenar los individuos de la nueva generación.</span>
+        <span class="n">nuevos_individuos</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># ELITISMO</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">if</span> <span class="n">elitismo</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Número de individuos que pasan directamente a la siguiente</span>
+            <span class="c1"># generación.</span>
+            <span class="n">n_elitismo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="o">*</span><span class="n">elitismo</span><span class="p">))</span>
+
+            <span class="c1"># Se identifican los n_elitismo individuos con mayor fitness (élite).</span>
+            <span class="n">array_fitness</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="p">):</span>
+                <span class="n">array_fitness</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">fitness</span><span class="p">)</span>
+            <span class="n">rank</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">array_fitness</span><span class="p">))</span>
+            <span class="n">elite</span> <span class="o">=</span> <span class="p">[</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">rank</span><span class="p">[:</span><span class="n">n_elitismo</span><span class="p">]]</span>
+            <span class="c1"># Se añaden los individuos élite a la lista de nuevos individuos.</span>
+            <span class="n">nuevos_individuos</span> <span class="o">=</span> <span class="n">nuevos_individuos</span> <span class="o">+</span> <span class="n">elite</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_elitismo</span> <span class="o">=</span> <span class="mi">0</span>
+            
+        <span class="c1"># CREACIÓN DE NUEVOS INDIVIDUOS POR CRUCES</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="o">-</span><span class="n">n_elitismo</span><span class="p">):</span>
+            <span class="c1"># Seleccionar parentales</span>
+            <span class="n">indice_parentales</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">seleccionar_individuo</span><span class="p">(</span>
+                                    <span class="n">n</span>                <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+                                    <span class="n">return_indices</span>   <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                                    <span class="n">metodo_seleccion</span> <span class="o">=</span> <span class="n">metodo_seleccion</span><span class="p">,</span>
+                                    <span class="n">verbose</span>          <span class="o">=</span> <span class="n">verbose_seleccion</span>
+                                 <span class="p">)</span>
+            <span class="c1"># Cruzar parentales para obtener la descendencia</span>
+            <span class="n">descendencia</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cruzar_individuos</span><span class="p">(</span>
+                            <span class="n">parental_1</span> <span class="o">=</span> <span class="n">indice_parentales</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                            <span class="n">parental_2</span> <span class="o">=</span> <span class="n">indice_parentales</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                            <span class="n">verbose</span>    <span class="o">=</span> <span class="n">verbose_cruce</span>
+                           <span class="p">)</span>
+            <span class="c1"># Mutar la descendencia</span>
+            <span class="n">descendencia</span><span class="o">.</span><span class="n">mutar</span><span class="p">(</span>
+                <span class="n">prob_mut</span>         <span class="o">=</span> <span class="n">prob_mut</span><span class="p">,</span>
+                <span class="n">distribucion</span>     <span class="o">=</span> <span class="n">distribucion</span><span class="p">,</span>
+                <span class="n">min_distribucion</span> <span class="o">=</span> <span class="n">min_distribucion</span><span class="p">,</span>
+                <span class="n">max_distribucion</span> <span class="o">=</span> <span class="n">max_distribucion</span><span class="p">,</span>
+                <span class="n">verbose</span>          <span class="o">=</span> <span class="n">verbose_mutacion</span>
+            <span class="p">)</span>
+            <span class="c1"># Se añade la descendencia a la lista de nuevos individuos. Para</span>
+            <span class="c1"># que no de error la unión, se introduce el individuo descendencia</span>
+            <span class="c1"># dentro de una lista.</span>
+            <span class="n">nuevos_individuos</span> <span class="o">=</span> <span class="n">nuevos_individuos</span> <span class="o">+</span> <span class="p">[</span><span class="n">descendencia</span><span class="p">]</span>
+
+        <span class="c1"># ACTUALIZACIÓN INFORMACIÓN DE LA POBLACIÓN</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">individuos</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">nuevos_individuos</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_individuo</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_fitness</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_variables</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_funcion</span> <span class="o">=</span> <span class="kc">None</span>
+        
+        <span class="c1"># INFORMACIÓN DEL PROCESO (VERBOSE)</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----------------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nueva generación creada&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-----------------------&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Método selección: &quot;</span> <span class="o">+</span> <span class="n">metodo_seleccion</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Elitismo: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">elitismo</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Número individuos élite: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">n_elitismo</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Número de nuevos individuos: &quot;</span>\
+                <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_individuos</span><span class="o">-</span><span class="n">n_elitismo</span><span class="p">))</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Poblacion.optimizar"><a class="viewcode-back" href="../../ga.codigo.html#ga.class_poblacion.Poblacion.optimizar">[docs]</a>    <span class="k">def</span> <span class="nf">optimizar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">funcion_objetivo</span><span class="p">,</span> <span class="n">optimizacion</span><span class="p">,</span> <span class="n">n_generaciones</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+                  <span class="n">metodo_seleccion</span><span class="o">=</span><span class="s2">&quot;tournament&quot;</span><span class="p">,</span> <span class="n">elitismo</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">prob_mut</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+                  <span class="n">distribucion</span><span class="o">=</span><span class="s2">&quot;uniforme&quot;</span><span class="p">,</span> <span class="n">media_distribucion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="n">sd_distribucion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">min_distribucion</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">max_distribucion</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="n">parada_temprana</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rondas_parada</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">tolerancia_parada</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                  <span class="n">verbose_nueva_generacion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                  <span class="n">verbose_seleccion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose_cruce</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                  <span class="n">verbose_mutacion</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose_evaluacion</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Este método realiza el proceso de optimización de una población.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        funcion_objetivo : `function`</span>
+<span class="sd">            función que se quiere optimizar.</span>
+
+<span class="sd">        optimizacion : {&quot;maximizar&quot; o &quot;minimizar&quot;}</span>
+<span class="sd">            si se desea maximizar o minimizar la función.</span>
+
+<span class="sd">        n_generaciones : `int` , optional</span>
+<span class="sd">            número de generaciones de optimización. (default ``50``)</span>
+
+<span class="sd">        metodo_seleccion : {&quot;ruleta&quot;, &quot;rank&quot;, &quot;tournament&quot;}</span>
+<span class="sd">            método de selección de selección, ver notas para más información.</span>
+<span class="sd">            (default `tournament`)</span>
+
+<span class="sd">        elitismo : `float`, optional</span>
+<span class="sd">            porcentaje de mejores individuos de la población actual que pasan</span>
+<span class="sd">            directamente a la siguiente población. De esta forma, se asegura</span>
+<span class="sd">            que, la siguiente generación, no sea nunca peor. (default `0.1`)</span>
+
+<span class="sd">        prob_mut : `float`, optional</span>
+<span class="sd">            probabilidad que tiene cada posición del individuo de mutar.</span>
+<span class="sd">            (default 0.01)</span>
+
+<span class="sd">        distribucion : {&quot;normal&quot;, &quot;uniforme&quot;, &quot;aleatoria&quot;}, optional</span>
+<span class="sd">            distribución de la que obtener el factor de mutación.</span>
+<span class="sd">            (default &quot;uniforme&quot;)</span>
+
+<span class="sd">        media_distribucion : `float`, optional</span>
+<span class="sd">            media de la distribución si se selecciona `distribucion = &quot;normal&quot;`</span>
+<span class="sd">            (default 1)</span>
+
+<span class="sd">        sd_distribucion : `float`, optional</span>
+<span class="sd">            desviación estándar de la distribución si se selecciona</span>
+<span class="sd">            `distribucion = &quot;normal&quot;`. (default 1)</span>
+
+<span class="sd">        min_distribucion : `float`, optional</span>
+<span class="sd">            mínimo de la distribución si se selecciona </span>
+<span class="sd">            `distribucion = &quot;uniforme&quot;`. (default -1)</span>
+
+<span class="sd">        max_distribucion : `float`, optional</span>
+<span class="sd">            máximo de la distribución si se selecciona </span>
+<span class="sd">            `distribucion = &quot;uniforme&quot;`. (default +1)</span>
+<span class="sd">     </span>
+<span class="sd">        parada_temprana : `bool`, optional</span>
+<span class="sd">            si durante las últimas `rondas_parada` generaciones la diferencia</span>
+<span class="sd">            absoluta entre mejores individuos no es superior al valor de </span>
+<span class="sd">            `tolerancia_parada`, se detiene el algoritmo y no se crean nuevas</span>
+<span class="sd">            generaciones. (default ``False``)</span>
+
+<span class="sd">        rondas_parada : `int`, optional</span>
+<span class="sd">            número de generaciones consecutivas sin mejora mínima para que se</span>
+<span class="sd">            active la parada temprana. (default ``None``)</span>
+
+<span class="sd">        tolerancia_parada : `float` or `int`, optional</span>
+<span class="sd">            valor mínimo que debe tener la diferencia de generaciones consecutivas</span>
+<span class="sd">            para considerar que hay cambio. (default ``None``)</span>
+
+<span class="sd">        verbose : `bool`, optional</span>
+<span class="sd">            mostrar información del proceso por pantalla. (default ``False``)</span>
+<span class="sd">        </span>
+<span class="sd">        verbose_nueva_generacion : `bool`, optional</span>
+<span class="sd">            mostrar información de cada nueva generación por pantalla.</span>
+<span class="sd">            (default ``False``)</span>
+
+<span class="sd">        verbose_seleccion : `bool`, optional</span>
+<span class="sd">            mostrar información de cada selección por pantalla.</span>
+<span class="sd">            (default ``False``)</span>
+
+<span class="sd">        verbose_cruce : `bool`, optional</span>
+<span class="sd">            mostrar información de cada cruce por pantalla.</span>
+<span class="sd">            (default ``False``)</span>
+
+<span class="sd">        verbose_mutacion : `bool`, optional</span>
+<span class="sd">            mostrar información de cada mutación por pantalla.</span>
+<span class="sd">            (default ``False``)</span>
+<span class="sd">        </span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        raise Exception</span>
+<span class="sd">            si se indica `parada_temprana = True` y los argumentos `rondas_parada`</span>
+<span class="sd">            o `tolerancia_parada` son ``None``.</span>
+
+<span class="sd">        raise Exception</span>
+<span class="sd">            si el argumento `metodo_seleccion` no es &#39;ruleta&#39;, &#39;rank&#39; o</span>
+<span class="sd">            &#39;tournament&#39;.</span>
+
+<span class="sd">        raise Exception</span>
+<span class="sd">            si el argumento `optimizacion` es distinto de &#39;maximizar&#39; o</span>
+<span class="sd">            &#39;minimizar</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Ejemplo optimización</span>
+
+<span class="sd">        &gt;&gt;&gt; def funcion_objetivo(x_0, x_1):</span>
+<span class="sd">                # Para la región acotada entre −10&lt;=x_0&lt;=0 y −6.5&lt;=x_1&lt;=0 la </span>
+<span class="sd">                # función tiene múltiples mínimos locales y un único minimo </span>
+<span class="sd">                # global en f(−3.1302468,−1.5821422)= −106.7645367.</span>
+<span class="sd">                f = np.sin(x_1)*np.exp(1-np.cos(x_0))**2 \</span>
+<span class="sd">                    + np.cos(x_0)*np.exp(1-np.sin(x_1))**2 \</span>
+<span class="sd">                    + (x_0-x_1)**2</span>
+<span class="sd">                return(f)</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion = Poblacion(</span>
+<span class="sd">                        n_individuos = 50,</span>
+<span class="sd">                        n_variables  = 2,</span>
+<span class="sd">                        limites_inf  = [-10, -6.5],</span>
+<span class="sd">                        limites_sup  = [0, 0],</span>
+<span class="sd">                        verbose      = False</span>
+<span class="sd">                        )</span>
+
+<span class="sd">        &gt;&gt;&gt; poblacion.optimizar(</span>
+<span class="sd">                funcion_objetivo   = funcion_objetivo,</span>
+<span class="sd">                optimizacion       = &quot;minimizar&quot;,</span>
+<span class="sd">                n_generaciones     = 250,</span>
+<span class="sd">                metodo_seleccion   = &quot;tournament&quot;,</span>
+<span class="sd">                elitismo           = 0.1,</span>
+<span class="sd">                prob_mut           = 0.01,</span>
+<span class="sd">                distribucion       = &quot;uniforme&quot;,</span>
+<span class="sd">                media_distribucion = 1,</span>
+<span class="sd">                sd_distribucion    = 1,</span>
+<span class="sd">                min_distribucion   = -1,</span>
+<span class="sd">                max_distribucion   = 1,</span>
+<span class="sd">                parada_temprana    = True,</span>
+<span class="sd">                rondas_parada      = 10,</span>
+<span class="sd">                tolerancia_parada  = 10**-16,</span>
+<span class="sd">                verbose            = False</span>
+<span class="sd">            )</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># COMPROBACIONES INICIALES: EXCEPTIONS Y WARNINGS</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="c1"># Si se activa la parada temprana, hay que especificar los argumentos</span>
+        <span class="c1"># rondas_parada y tolerancia_parada.</span>
+        <span class="k">if</span> <span class="n">parada_temprana</span> \
+        <span class="ow">and</span> <span class="p">(</span><span class="n">rondas_parada</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">tolerancia_parada</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                <span class="s2">&quot;Para activar la parada temprana es necesario indicar un &quot;</span> \
+                <span class="o">+</span> <span class="s2">&quot; valor de rondas_parada y de tolerancia_parada.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="c1"># ITERACIONES (GENERACIONES)</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n_generaciones</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Generación: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------&quot;</span><span class="p">)</span>
+            
+            <span class="c1"># EVALUAR INDIVIDUOS DE LA POBLACIÓN</span>
+            <span class="c1"># ------------------------------------------------------------------</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">evaluar_poblacion</span><span class="p">(</span>
+                <span class="n">funcion_objetivo</span> <span class="o">=</span> <span class="n">funcion_objetivo</span><span class="p">,</span>
+                <span class="n">optimizacion</span>     <span class="o">=</span> <span class="n">optimizacion</span><span class="p">,</span>
+                <span class="n">verbose</span>          <span class="o">=</span> <span class="n">verbose_evaluacion</span>
+                <span class="p">)</span>
+
+            <span class="c1"># SE ALMACENA LA INFORMACIÓN DE LA GENERACIÓN EN LOS HISTÓRICOS</span>
+            <span class="c1"># ------------------------------------------------------------------</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">historico_individuos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">individuos</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_fitness</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mejor_fitness</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_valor_variables</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                    <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_variables</span><span class="p">)</span>
+                                <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_valor_funcion</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                    <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mejor_valor_funcion</span><span class="p">)</span>
+                                <span class="p">)</span>
+
+            <span class="c1"># SE CALCULA LA DIFERENCIA ABSOLUTA RESPECTO A LA GENERACIÓN ANTERIOR</span>
+            <span class="c1"># ------------------------------------------------------------------</span>
+            <span class="c1"># La diferencia solo puede calcularse a partir de la segunda</span>
+            <span class="c1"># generación.</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">diferencia_abs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">diferencia</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_fitness</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> \
+                                 <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_fitness</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">diferencia_abs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diferencia</span><span class="p">)</span>
+
+            <span class="c1"># CRITERIO DE PARADA</span>
+            <span class="c1"># ------------------------------------------------------------------</span>
+            <span class="c1"># Si durante las últimas n generaciones, la diferencia absoluta entre</span>
+            <span class="c1"># mejores individuos no es superior al valor de tolerancia_parada,</span>
+            <span class="c1"># se detiene el algoritmo y no se crean nuevas generaciones.</span>
+            <span class="k">if</span> <span class="n">parada_temprana</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">rondas_parada</span><span class="p">:</span>
+                <span class="n">ultimos_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">diferencia_abs</span><span class="p">[</span><span class="o">-</span><span class="p">(</span><span class="n">rondas_parada</span><span class="p">):</span> <span class="p">])</span>
+                <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">ultimos_n</span> <span class="o">&lt;</span> <span class="n">tolerancia_parada</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Algoritmo detenido en la generación &quot;</span> 
+                          <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> \
+                          <span class="o">+</span> <span class="s2">&quot; por falta cambio absoluto mínimo de &quot;</span> \
+                          <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tolerancia_parada</span><span class="p">)</span> \
+                          <span class="o">+</span> <span class="s2">&quot; durante &quot;</span> \
+                          <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">rondas_parada</span><span class="p">)</span> \
+                          <span class="o">+</span> <span class="s2">&quot; generaciones consecutivas.&quot;</span><span class="p">)</span>
+                    <span class="k">break</span>
+            
+            <span class="c1"># CREAR UNA NUEVA GENERACIÓN</span>
+            <span class="c1"># ------------------------------------------------------------------         </span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">crear_nueva_generecion</span><span class="p">(</span>
+                <span class="n">metodo_seleccion</span>   <span class="o">=</span> <span class="n">metodo_seleccion</span><span class="p">,</span>
+                <span class="n">elitismo</span>           <span class="o">=</span> <span class="n">elitismo</span><span class="p">,</span>
+                <span class="n">prob_mut</span>           <span class="o">=</span> <span class="n">prob_mut</span><span class="p">,</span>
+                <span class="n">distribucion</span>       <span class="o">=</span> <span class="n">distribucion</span><span class="p">,</span>
+                <span class="n">verbose</span>            <span class="o">=</span> <span class="n">verbose_nueva_generacion</span><span class="p">,</span>
+                <span class="n">verbose_seleccion</span>  <span class="o">=</span> <span class="n">verbose_seleccion</span><span class="p">,</span>
+                <span class="n">verbose_cruce</span>      <span class="o">=</span> <span class="n">verbose_cruce</span><span class="p">,</span>
+                <span class="n">verbose_mutacion</span>   <span class="o">=</span> <span class="n">verbose_mutacion</span>
+                <span class="p">)</span>
+
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimizado</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iter_optimizacion</span> <span class="o">=</span> <span class="n">i</span>
+        
+        <span class="c1"># IDENTIFICACIÓN DEL MEJOR INDIVIDUO DE TODO EL PROCESO</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="n">indice_valor_optimo</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_fitness</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fitness_optimo</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_fitness</span><span class="p">[</span><span class="n">indice_valor_optimo</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valor_funcion_optimo</span> <span class="o">=</span> <span class="bp">self</span>\
+                                    <span class="o">.</span><span class="n">historico_mejor_valor_funcion</span><span class="p">[</span><span class="n">indice_valor_optimo</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">valor_variables_optimo</span> <span class="o">=</span> <span class="bp">self</span>\
+                                      <span class="o">.</span><span class="n">historico_mejor_valor_variables</span><span class="p">[</span><span class="n">indice_valor_optimo</span><span class="p">]</span>
+        
+        <span class="c1"># CREACIÓN DE UN DATAFRAME CON LOS RESULTADOS</span>
+        <span class="c1"># ----------------------------------------------------------------------</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resultados_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span>
+            <span class="s2">&quot;mejor_fitness&quot;</span>        <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_fitness</span><span class="p">,</span>
+            <span class="s2">&quot;mejor_valor_funcion&quot;</span>  <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_fitness</span><span class="p">,</span>
+            <span class="s2">&quot;mejor_valor_variables&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">historico_mejor_valor_variables</span><span class="p">,</span>
+            <span class="s2">&quot;diferencia_abs&quot;</span>       <span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">diferencia_abs</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resultados_df</span><span class="p">[</span><span class="s2">&quot;generacion&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resultados_df</span><span class="o">.</span><span class="n">index</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Optimización finalizada &quot;</span> \
+              <span class="o">+</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-------------------------------------------&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Duración optimización: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Número de generaciones: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iter_optimizacion</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valor óptimo de las variables: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valor_variables_optimo</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Valor función objetivo: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">valor_funcion_optimo</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Joaquín Amat Rodrigo
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

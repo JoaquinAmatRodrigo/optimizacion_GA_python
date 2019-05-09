@@ -1,0 +1,5 @@
+Particula
+================
+
+.. automodule:: ga.class_individuo
+   :members:
