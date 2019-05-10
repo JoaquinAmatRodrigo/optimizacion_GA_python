@@ -86,7 +86,7 @@
               <p class="caption"><span class="caption-text">Tabla de contenidos:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="ga.introduccion.html">Introducción</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ga.codigo.html">Codigo Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ga.codigo.html">Código Python</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Ejemplos</a></li>
 </ul>
 
@@ -164,6 +164,93 @@
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1"># Función objetivo que se quiere minimizar</span>
+<span class="k">def</span> <span class="nf">funcion_objetivo</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Para la región acotada entre −10&lt;=x_0&lt;=0 y −6.5&lt;=x_1&lt;=0 la función tiene</span>
+<span class="sd">    múltiples mínimos locales y un único minimo global que se encuentra en</span>
+<span class="sd">    f(−3.1302468,−1.5821422) = −106.7645367</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x_0</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> \
+        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x_0</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x_1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span> \
+        <span class="o">+</span> <span class="p">(</span><span class="n">x_0</span><span class="o">-</span><span class="n">x_1</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="c1"># Gráfico 3d de la función objetivo</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">8.5</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># Grid de datos</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">6.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">funcion_objetivo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">grafico</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">,</span>
+                       <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">45</span><span class="p">)</span>
+
+<span class="c1"># Contour plot función objetivo</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">4.2</span><span class="p">))</span>
+<span class="n">x_0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">x_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span> <span class="o">=</span> <span class="o">-</span><span class="mf">6.5</span><span class="p">,</span> <span class="n">stop</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">funcion_objetivo</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdGy&#39;</span><span class="p">)</span>
+
+<span class="c1"># Crear población</span>
+<span class="n">poblacion</span> <span class="o">=</span> <span class="n">Poblacion</span><span class="p">(</span>
+            <span class="n">n_individuos</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+            <span class="n">n_variables</span>  <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">limites_inf</span>  <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.5</span><span class="p">],</span>
+            <span class="n">limites_sup</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="n">verbose</span>      <span class="o">=</span> <span class="bp">False</span>
+        <span class="p">)</span>
+
+<span class="c1"># Optimizar</span>
+<span class="n">poblacion</span><span class="o">.</span><span class="n">optimizar</span><span class="p">(</span>
+    <span class="n">funcion_objetivo</span>   <span class="o">=</span> <span class="n">funcion_objetivo</span><span class="p">,</span>
+    <span class="n">optimizacion</span>       <span class="o">=</span> <span class="s2">&quot;minimizar&quot;</span><span class="p">,</span>
+    <span class="n">n_generaciones</span>     <span class="o">=</span> <span class="mi">250</span><span class="p">,</span>
+    <span class="n">metodo_seleccion</span>   <span class="o">=</span> <span class="s2">&quot;tournament&quot;</span><span class="p">,</span>
+    <span class="n">elitismo</span>           <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="n">prob_mut</span>           <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span>
+    <span class="n">distribucion</span>       <span class="o">=</span> <span class="s2">&quot;uniforme&quot;</span><span class="p">,</span>
+    <span class="n">media_distribucion</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">sd_distribucion</span>    <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">min_distribucion</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">max_distribucion</span>   <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">parada_temprana</span>    <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+    <span class="n">rondas_parada</span>      <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">tolerancia_parada</span>  <span class="o">=</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">16</span><span class="p">,</span>
+    <span class="n">verbose</span>            <span class="o">=</span> <span class="bp">False</span>
+<span class="p">)</span>
+
+<span class="c1"># Evolución de la optimización</span>
+<span class="n">poblacion</span><span class="o">.</span><span class="n">resultados_df</span><span class="p">[</span><span class="s1">&#39;mejor_fitness&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Evolución del fitness&quot;</span><span class="p">)</span>
+
+
+<span class="c1">#import matplotlib.animation as animation</span>
+<span class="c1">#%matplotlib notebook</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">6.5</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">animate</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">6.5</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">df_posiciones_i</span> <span class="o">=</span> <span class="n">df_posiciones</span><span class="p">[</span><span class="n">df_posiciones</span><span class="p">[</span><span class="s2">&quot;generacion&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">][[</span><span class="s2">&quot;x_0&quot;</span><span class="p">,</span> <span class="s2">&quot;x_1&quot;</span><span class="p">]]</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">x_1</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;RdGy&#39;</span><span class="p">)</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_posiciones_i</span><span class="p">[</span><span class="s2">&quot;x_0&quot;</span><span class="p">],</span> <span class="n">df_posiciones_i</span><span class="p">[</span><span class="s2">&quot;x_1&quot;</span><span class="p">])</span>
+
+<span class="n">ani</span> <span class="o">=</span> <span class="n">matplotlib</span><span class="o">.</span><span class="n">animation</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">animate</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">blit</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
