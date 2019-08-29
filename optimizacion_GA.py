@@ -422,7 +422,7 @@ class Individuo:
                                 high=1,
                                 size=self.n_variables
                              )
-        posiciones_mutadas = posiciones_mutadas > prob_mut
+        posiciones_mutadas = posiciones_mutadas < prob_mut
 
         # MODIFICACIÓN DE LOS VALORES DE LAS VARIABLES SELECCIONADAS
         #-----------------------------------------------------------------------
